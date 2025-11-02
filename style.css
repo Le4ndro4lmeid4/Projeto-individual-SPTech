@@ -1,0 +1,166 @@
+body {
+    margin: 0;
+    line-height: 1.6;
+    scrollbar-width: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: #8a211a;
+
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    }
+
+nav ul a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.slider {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* centraliza verticalmente */
+  position: relative; /* necessário para os botões */
+  overflow: hidden;
+}
+
+.slides img {
+  width: 100%; 
+  max-width: 1920px; /* opcional: limite de tamanho */
+  height: auto;
+  position: absolute; /* necessário para sobreposição das imagens */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) ; /* centraliza e aplica o scale */
+  transition: opacity 1s ease-in-out;
+  opacity: 1;
+}
+
+.slides {
+  position: relative;
+  width: 1920px; /* ajuste conforme seu layout */
+  height: 700px; /* ajuste conforme seu layout */
+  overflow: hidden;
+}
+
+button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+#anterior { left: 10px; }
+#proximo { right: 10px; }
+
+.container1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 700px;
+    background: linear-gradient(to bottom, #8a211a, #b12e24);
+}
+
+.container1 span {
+    color: #fff;
+    font-weight: bold;
+    font-size: 80px;
+    padding-left: 60px;
+}
+
+.container1 .texto {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    padding: 60px;
+    font-size: 25px;
+    color: #fff;
+    text-align: justify;
+}
+
+.container2 {
+    display: flex;
+    flex-direction: column;
+    height: 700px;
+}
+
+
+.container2 h1 {
+  display: flex;
+  justify-content: center; /* Alinha horizontalmente */
+  align-items: center; 
+  font-size: 45px;
+  color: #fff;
+}
+
+.container2 .card,.texto_card, .texto {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.container2 .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 500px;
+  height: 500px;
+  border-radius: 100%;
+  background-size: cover;
+  background-position: center;
+  margin-left: 60px;
+  position: relative;
+}
+
+.container2 .card .texto_card {
+  color: #fff;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #ecad0e;
+  border-radius: 25px;
+}
+
+.container2 .texto {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    padding-right: 100px;
+    font-size: 25px;
+    color: #fff;
+    text-align: justify;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas: "card texto_card";
+  gap: 100px;
+}
+
+.card       { grid-area: card; }
+.texto_card       { grid-area: texto_card; }
+
+#anteriorPersonagem { left: 10px; }
+#proximoPersonagem { right: 10px; }
+
+
+
