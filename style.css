@@ -74,10 +74,10 @@ button {
 
 .container1 {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     height: 700px;
-    background: linear-gradient(to bottom, #8a211a, #b12e24);
+    background: linear-gradient(to bottom, #8a211a, #590f0e);
 }
 
 .container1 span {
@@ -101,6 +101,8 @@ button {
     display: flex;
     flex-direction: column;
     height: 700px;
+    transition: background 1s linear;
+    position: relative;
 }
 
 
@@ -129,38 +131,78 @@ button {
   position: relative;
 }
 
-.container2 .card .texto_card {
-  color: #fff;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  padding: 10px 20px;
-  background-color: #ecad0e;
-  border-radius: 25px;
-}
 
 .container2 .texto {
     display: flex;
     align-self: center;
     flex-direction: column;
-    padding-right: 100px;
+    padding-right: 60px;
     font-size: 25px;
     color: #fff;
     text-align: justify;
 }
 
-.dashboard-grid {
+.personagens-grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-areas: "card texto_card";
   gap: 100px;
 }
 
-.card       { grid-area: card; }
-.texto_card       { grid-area: texto_card; }
+.card { grid-area: card; }
+.texto_card { grid-area: texto_card; }
 
-#anteriorPersonagem { left: 10px; }
-#proximoPersonagem { right: 10px; }
+#anteriorPersonagem, 
+#proximoPersonagem {
+  position: absolute;
+  top: 68px
+}
 
+#anteriorPersonagem {
+  left: 450px;
+}
 
+#proximoPersonagem {
+  right: 450px;
+}
 
+.container3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 700px;
+    background: linear-gradient(to bottom, #8a211a, #590f0e);
+}
+
+.container3 .titulo,
+.container3 .texto1,
+.container3 .texto2,
+.container3 .texto3 {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    flex-direction: column;
+    padding-left: 60px;
+    padding-right: 60px;
+    font-size: 25px;
+    color: #fff;
+    text-align: justify;
+}
+
+.texto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        "titulo titulo titulo"
+        "texto1 texto1 texto1"
+        "texto2 texto2 texto2"
+        "texto3 texto3 texto3"
+        ;
+    gap: 50px;
+}
+
+.titulo { grid-area: titulo; }
+.texto1 { grid-area: texto1; }
+.texto2 { grid-area: texto2; }
+.texto3 { grid-area: texto3; }
