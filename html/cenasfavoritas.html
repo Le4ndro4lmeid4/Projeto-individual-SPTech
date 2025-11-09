@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cenas Favoritas</title>
+  <link rel="stylesheet" href="../styles/cenasfavoritas.css" />
+  <script src="../script/script.js" defer></script>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Cenas Favoritas - Livro 1</h2>
+
+    <div class="cena-item" onclick="mostrarCenaPorIndice(0)">
+      <h3>Aang acordando</h3>
+      <img src="../imagens/cenas/aangAcordando.gif" alt="Aang acordando">
+    </div>
+
+    <div class="cena-item" onclick="mostrarCenaPorIndice(1)">
+      <h3>Katara treinando</h3>
+      <img src="../imagens/katara.gif" alt="Katara treinando">
+    </div>
+
+    <div class="cena-item" onclick="mostrarCenaPorIndice(2)">
+      <h3>Sokka irritado</h3>
+      <img src="../imagens/sokka.gif" alt="Sokka irritado">
+    </div>
+
+    <div class="cena-item" onclick="mostrarCenaPorIndice(3)">
+      <h3>Zuko concentrado</h3>
+      <img src="../imagens/zuko.gif" alt="Zuko concentrado">
+    </div>
+  </aside>
+
+  <section class="Cenas-Livro1">
+    <div class="cena1" id="cena1" style="background-image: url('../imagens/cenas/aangAcordando.gif')">
+      <div class="textoCena" id="textoCena">
+        Aang acorda e se depara com seu mundo diferente
+      </div>
+    </div>
+  </section>
+</body>
+</html>
+<script>
+
+
+function mostrarCenaPorIndice(indice) {
+    cena1.style.opacity = 0;
+    textoCena.style.opacity = 0;
+
+    setTimeout(() => {
+      if (indice == 0) {
+        cena1.style.backgroundImage = `url('../imagens/cenas/aangAcordando.gif')`;
+        textoCena.textContent = "Cena 0";
+      } else if (indice == 1) {
+        cena1.style.backgroundImage = `url('../imagens/katara.gif')`;
+        textoCena.textContent = "Cena 1";
+      } else if (indice == 2) {
+        cena1.style.backgroundImage = `url('../imagens/sokka.gif')`;
+        textoCena.textContent = "Cena 2";
+      } else if (indice == 3) {
+        cena1.style.backgroundImage = `url('../imagens/toph.gif')`;
+        textoCena.textContent = "Cena 3";
+      } else if (indice == 4) {
+        cena1.style.backgroundImage = `url('../imagens/zuko.gif')`;
+        textoCena.textContent = "Cena 4";
+      } else if (indice == 5) {
+        cena1.style.backgroundImage = `url('../imagens/sokka.gif')`;
+        textoCena.textContent = "Cena 5";
+      } 
+
+      // Fade in
+      cena1.style.opacity = 1;
+      textoCena.style.opacity = 1;
+    }, 500);
+}
+</script>
+

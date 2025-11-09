@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(to bottom, #1b2d6a, #0f1b3d);
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 2px solid #333;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cena-item {
+  margin-bottom: 15px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s ease, filter 0.3s;
+}
+
+.cena-item:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+.cena-item img {
+  width: 100%;
+  border-radius: 8px;
+  height: 100px;
+  object-fit: cover;
+}
+
+/* Área principal */
+.Cenas-Livro1 {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+  background-color: black;
+}
+
+.cena1 {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.textoCena {
+  position: relative;
+  z-index: 2;
+  font-size: 1.4em;
+  margin-bottom: 40px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: opacity 0.5s ease-in-out;
+}
