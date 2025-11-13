@@ -37,54 +37,24 @@
           style="background-image: url('../imagens/cenas/aangAcordando.gif')"
         >
           <div class="textoCena" id="textoCena">
-            Aang acorda e se depara com seu mundo diferente.
+            1
           </div>
         </div>
       </section>
     </main>
 
     <script>
-      function mostrarCenaPorIndice(indice) {
-        var livro = select_livro.value;
+      var titulos = [];
+      var imagens = [];
+      var textoIndice = [];
 
+      function mostrarCenaPorIndice(indice) {
         cena1.style.opacity = 0;
         textoCena.style.opacity = 0;
 
         setTimeout(() => {
-          if (livro == "1") {
-            if (indice == 0) {
-              cena1.style.backgroundImage = `url('../imagens/cenas/aangAcordando.gif')`;
-              textoCena.textContent =
-                "Aang acorda e se depara com seu mundo diferente.";
-            } else if (indice == 1) {
-              cena1.style.backgroundImage = `url('../imagens/katara.gif')`;
-              textoCena.textContent = "Katara treinando o controle da água.";
-            } else if (indice == 2) {
-              cena1.style.backgroundImage = `url('../imagens/sokka.gif')`;
-              textoCena.textContent =
-                "Sokka irritado após mais uma trapalhada.";
-            } else if (indice == 3) {
-              cena1.style.backgroundImage = `url('../imagens/zuko.gif')`;
-              textoCena.textContent =
-                "Zuko concentrado em sua busca pelo Avatar.";
-            }
-          } else if (livro == "2") {
-            if (indice == 0) {
-              cena1.style.backgroundImage = `url('../imagens/toph.gif')`;
-              textoCena.textContent = "toph";
-            } else if (indice == 1) {
-              cena1.style.backgroundImage = `url('../imagens/aang.gif')`;
-              textoCena.textContent = "aang.";
-            } else if (indice == 2) {
-              cena1.style.backgroundImage = `url('../imagens/sokka.gif')`;
-              textoCena.textContent =
-                "Sokka irritado após mais uma trapalhada.";
-            } else if (indice == 3) {
-              cena1.style.backgroundImage = `url('../imagens/zuko.gif')`;
-              textoCena.textContent =
-                "Zuko concentrado em sua busca pelo Avatar.";
-            }
-          }
+          cena1.style.backgroundImage = `url('../imagens/${imagens[indice]}')`;
+          textoCena.textContent = textoIndice[indice];
 
           cena1.style.opacity = 1;
           textoCena.style.opacity = 1;
@@ -93,52 +63,38 @@
 
       function trocarlivro() {
         var livro = select_livro.value;
+        var conteudo = "";
 
         if (livro == "1") {
-          listaCenas.innerHTML = `
-          <div class="cena-item" onclick="mostrarCenaPorIndice(0)">
-            <h3>Aang acordando</h3>
-            <img src="../imagens/cenas/aangAcordando.gif" alt="Aang acordando">
-          </div>
-
-          <div class="cena-item" onclick="mostrarCenaPorIndice(1)">
-            <h3>Katara treinando</h3>
-            <img src="../imagens/katara.gif" alt="Katara treinando">
-          </div>
-
-          <div class="cena-item" onclick="mostrarCenaPorIndice(2)">
-            <h3>Sokka irritado</h3>
-            <img src="../imagens/sokka.gif" alt="Sokka irritado">
-          </div>
-
-          <div class="cena-item" onclick="mostrarCenaPorIndice(3)">
-            <h3>Zuko concentrado</h3>
-            <img src="../imagens/zuko.gif" alt="Zuko concentrado">
-          </div>
-        `;
+          textoIndice = ["1", "2", "3", "4"];
+          titulos = [
+            "Aang acordando",
+            "Katara treinando",
+            "Sokka irritado",
+            "Zuko concentrado",
+          ];
+          imagens = [
+            "aangAcordando.gif",
+            "katara.gif",
+            "sokka.gif",
+            "zuko.gif",
+          ];
         } else if (livro == "2") {
-          listaCenas.innerHTML = `
-          <div class="cena-item" onclick="mostrarCenaPorIndice(0)">
-            <h3>toph</h3>
-            <img src="../imagens/toph.gif" alt="toph acordando">
-          </div>
-
-          <div class="cena-item" onclick="mostrarCenaPorIndice(1)">
-            <h3>aang</h3>
-            <img src="../imagens/aang.gif" alt="aang">
-          </div>
-
-          <div class="cena-item" onclick="mostrarCenaPorIndice(2)">
-            <h3>teste 3</h3>
-            <img src="../imagens/sokka.gif" alt="Sokka irritado">
-          </div>
-
-          <div class="cena-item" onclick="mostrarCenaPorIndice(3)">
-            <h3>teste 4</h3>
-            <img src="../imagens/zuko.gif" alt="Zuko concentrado">
-          </div>
-        `;
+          textoIndice = ["5", "6", "7", "8"];
+          titulos = ["Toph", "Aang", "teste 1", "teste 2"];
+          imagens = ["toph.gif", "aang.gif", "sokka.gif", "zuko.gif"];
         }
+
+        for (var i = 0; i < titulos.length; i++) {
+          conteudo += `
+        <div class="cena-item" onclick="mostrarCenaPorIndice(${i})">
+          <h3>${titulos[i]}</h3>
+          <img src="../imagens/${imagens[i]}" alt="${titulos[i]}">
+        </div>
+      `;
+        }
+
+        listaCenas.innerHTML = conteudo;
       }
 
       window.onload = trocarlivro;
