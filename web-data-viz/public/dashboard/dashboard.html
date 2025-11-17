@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaTech | Dashboards</title>
+
+    
+    <link rel="stylesheet" href="./../css/dashboards.css">
+    <link rel="stylesheet" href="./../css/estilo.css" />
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- scripts do Chart.js - 2022-1 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!--FONT AWESOME-->
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+</head>
+
+<!-- <body onload=" atualizarFeed()"> -->
+
+<body>
+
+    <div class="janela">
+        <div class="header-left">
+            <h1>AquaTech</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./cards.html">
+                    <h3>Aquários</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav">
+
+                <h3>Gráficos</h3>
+
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Mural de Avisos</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+
+        <div class="dash">
+            <div id="alerta">
+            </div>
+
+            <div class="btns-dash" id="btnAquario">
+                <!-- O gráfico é chamado de acordo com o id (fk_aquario) do banco  -->
+            </div>
+            <div id="graficos">
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+<script>
+const idEstufa = Number(sessionStorage.getItem("ID_ESTUFA")) || 1;
+
+// Contextos dos gráficos
+const ctxUmidade = document.getElementById("myChart");
+const ctxTemperatura = document.getElementById("myChartline");
+
+// Sensores
+const labelsSensores = ["S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11","S12","S13","S14"];
+
+// Mapa de cores por fase
+const coresPorFase = {
+  "Dormência": { umidade: "#6fa8dc", temperatura: "#0b5394" },
+  "Brotação": { umidade: "#b6d7a8", temperatura: "#38761d" },
+  "Floração": { umidade: "#ffd966", temperatura: "#e69138" },
+  "Crescimento": { umidade: "#93c47d", temperatura: "#6aa84f" },
+  "Maturação": { umidade: "#f4cccc", temperatura: "#cc0000" },
+  "Colheita": { umidade: "#cfe2f3", temperatura: "#1155cc" }
+};
+
+// Dados dos gráficos
+let dadosUmidade = { labels: labelsSensores.slice(), datasets: [{ label: "Umidade", data: Array(labelsSensores.length).fill(null), borderWidth: 1, borderColor: "#000", backgroundColor: "#000" }] };
+let dadosTemperatura = { labels: labelsSensores.slice(), datasets: [{ label: "Temperatura", data: Array(labelsSensores.length).fill(null), borderWidth: 1, borderColor: "#000", backgroundColor: "#000" }] };
+
+// Criação dos gráficos
+const graficoUmidade = new Chart(ctxUmidade, { type: "bar", data: dadosUmidade, options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
+const graficoTemperatura = new Chart(ctxTemperatura, { type: "bar", data: dadosTemperatura, options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
+
+let faseAtual = "Dormência"; // valor inicial
+let atualizarIntervalo;
+
+// Função para buscar a fase atual
+function atualizarFaseAtual() {
+    fetch(`/estufa/${idEstufa}/faseAtual`, { cache: "no-store" })
+      .then(res => res.json())
+      .then(dados => {
+          if (!dados || !dados.periodoDesenvolvimento) return;
+
+          faseAtual = dados.periodoDesenvolvimento;
+
+          // Atualiza a div de fase atual
+          const faseDiv = document.getElementById("faseAtual");
+          if(faseDiv) faseDiv.textContent = faseAtual;
+
+          // Mostra/esconde fases no painel
+          const mapaFases = {
+              "Dormência": "dormencia",
+              "Brotação": "brotacao",
+              "Floração": "floracao",
+              "Crescimento": "crescimento",
+              "Maturação": "maturacao",
+              "Colheita": "colheita"
+          };
+
+          Object.values(mapaFases).forEach(id => {
+              const el = document.getElementById(id);
+              if(el) el.style.display = "none";
+          });
+
+          const idFase = mapaFases[faseAtual];
+          if(idFase){
+              const el = document.getElementById(idFase);
+              if(el) el.style.display = "block";
+          }
+      })
+      .catch(err => console.error("Erro ao atualizar fase da uva:", err));
+}
+
+// Atualiza cores do gráfico de acordo com a fase
+function aplicarCoresPorFase() {
+    const cores = coresPorFase[faseAtual] || { umidade: "#000", temperatura: "#000" };
+
+    dadosUmidade.datasets[0].borderColor = cores.umidade;
+    dadosUmidade.datasets[0].backgroundColor = cores.umidade;
+
+    dadosTemperatura.datasets[0].borderColor = cores.temperatura;
+    dadosTemperatura.datasets[0].backgroundColor = cores.temperatura;
+}
+
+// Atualiza os gráficos com os dados dos sensores
+function atualizarGraficosEstufa() {
+    fetch(`/medidas/estufa/${idEstufa}/atuais`, { cache: "no-store" })
+      .then(res => res.json())
+      .then(dados => {
+          if(!dados) return;
+
+          dadosUmidade.datasets[0].data.length = 0;
+          dadosTemperatura.datasets[0].data.length = 0;
+
+          labelsSensores.forEach((label, index) => {
+              const sensorId = index + 1;
+              const registro = dados.find(s => s.idSensor == sensorId);
+              if(registro){
+                  dadosUmidade.datasets[0].data.push(registro.umidade);
+                  dadosTemperatura.datasets[0].data.push(registro.temperatura);
+              } else {
+                  dadosUmidade.datasets[0].data.push(null);
+                  dadosTemperatura.datasets[0].data.push(null);
+              }
+          });
+
+          aplicarCoresPorFase();
+
+          graficoUmidade.update();
+          graficoTemperatura.update();
+      })
+      .catch(err => console.error("Erro ao atualizar gráficos da estufa:", err));
+}
+
+// Inicialização
+window.onload = () => {
+    atualizarFaseAtual();
+    atualizarGraficosEstufa();
+
+    atualizarIntervalo = setInterval(() => {
+        atualizarFaseAtual();
+        atualizarGraficosEstufa();
+    }, 5000);
+};
+</script>

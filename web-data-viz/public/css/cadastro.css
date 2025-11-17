@@ -1,0 +1,195 @@
+html {
+  overflow-y: scroll;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  padding: 0 40px;
+  background: rgba(31, 26, 26, 0.67);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.5px);
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+body {
+font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+    color: white;
+      line-height: 1.6;
+  min-height: 100vh;
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 40%,
+      rgba(0, 0, 0, 0.8) 55%,
+      rgba(0, 0, 0, 0.5) 70%,
+      rgba(0, 0, 0, 0.25) 85%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    url("../assets/imgs/cadastro.gif");
+  background-size:
+    100% 100%,
+    cover;
+  background-position:
+    center,
+    left 10px;
+  background-repeat:
+    no-repeat,
+    no-repeat;
+}
+
+
+.container {
+  display: flex;
+  width: 80%;
+  margin: auto;
+}
+
+
+
+.login {
+  background-size: cover;
+}
+
+.login .container {
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.card {
+  width: 50%;
+  margin: 12vh 70% 12vh 0px; 
+  background: linear-gradient(135deg, #8a211a, #590f0e);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: fit-content;
+  padding: 20px 24px;
+  color: #fff;
+  border: 1px solid #ff7b00;
+  box-shadow: 0 0 20px rgba(255, 120, 0, 0.6);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.formulario {
+  display: flex;
+  height: 90%;
+  width: 80%;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.formulario span {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.formulario input {
+  border: 2px solid #000;
+  text-align: center;
+  border-radius: 10px;
+  margin: 0;
+}
+
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 5px 0;
+}
+
+.botao {
+  cursor: pointer;
+  font-family: "Barlow", sans-serif;
+  border: 0;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 18px;
+  color: #fff;
+  background-color: #ed8f14;
+  width: 120px;
+  height: 30px;
+  align-self: center;
+  margin-top: 20px;
+}
+
+
+#div_erros_login {
+  display: none
+}
+
+
+.alerta_erro{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card_erro {
+  display: none;
+  background-color: #fff;
+  color: black;
+  width: 230px;
+  position: fixed;
+  border-radius: 4px;
+  border: #ed8f14 3px solid;
+  padding: 10px;
+  margin-right: 10%;
+}
+
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 4px;
+ background-color: rgba(0, 0, 0, 0.7);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #417288,#1b2d6a, #2d2d2d, #590f0e); 
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom,  #4f839b,#29418f, #696969, #831917);
+}
