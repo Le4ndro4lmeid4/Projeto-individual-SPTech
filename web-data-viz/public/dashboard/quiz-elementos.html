@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz - Qual elemento você seria?</title>
+    <link rel="stylesheet" href="../css/quiz.css">
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+    <div id="usuarioLogado" style="padding: 20px; color: #f5f5f5; font-weight: bold;">
+        Olá, <span id="nomeUsuario">carregando...</span>!
+    </div>
+    <nav>
+        <ul>
+            <li style="margin-bottom: 16px;">
+                <a href="/dashboard/quiz-elementos.html" style="color: #f5f5f5; text-decoration: none;">Quiz de Elementos</a>
+            </li>
+            <li>
+                <a href="/dashboard/dashboard.html" style="color: #f5f5f5; text-decoration: none;">Dashboard</a>
+            </li>
+            <li>
+                <a href="#" style="color: #f5f5f5; text-decoration: none;" 
+                onclick="sessionStorage.clear(); window.location.href='/login.html';">
+                Sair
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+<main id="main">    
+    
+
+    <div id="containerQuiz">
+
+    
+        <h1>Qual elemento você seria?</h1>
+
+
+        <div id="divInicio">
+            <p>
+                Responda algumas perguntas e descubra qual elemento mais combina com você!
+            </p>
+            <div>
+                <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR QUIZ</button>
+            </div>
+        </div>
+
+        <div id="jogo" class="oculto">
+            <div id="infoQuestao">
+                <span>Questão atual:
+                    <span id="spanNumeroDaQuestaoAtual"></span> de
+                    <span id="qtdQuestoes"></span> questões.
+                </span>
+            </div>
+
+            <div id="perguntaDaQuestaoAtual">
+                <p id="spanQuestaoExibida" class="pergunta"></p>
+            </div>
+
+            <div id="opcoes">
+                <label class="alternativa">
+                    <input type="radio" id="primeiraOpcao" name="option" value="alternativaA" />
+                    <span id="labelOpcaoUm"></span>
+                </label>
+                <label class="alternativa">
+                    <input type="radio" id="segundaOpcao" name="option" value="alternativaB" />
+                    <span id="labelOpcaoDois"></span>
+                </label>
+                <label class="alternativa">
+                    <input type="radio" id="terceiraOpcao" name="option" value="alternativaC" />
+                    <span id="labelOpcaoTres"></span>
+                </label>
+                <label class="alternativa">
+                    <input type="radio" id="quartaOpcao" name="option" value="alternativaD" />
+                    <span id="labelOpcaoQuatro"></span>
+                </label>
+            </div>
+
+            <div id="botoes">
+                <button onclick="avancar()" id="btnProx" disabled>Próxima questão</button>
+            </div>
+        </div>
+
+        <div id="resultadoFinal" class="oculto">
+            <h2>Resultado</h2>
+            <p id="textoResultado"></p>
+
+            <div id="botoesFinais">
+                <button onclick="irParaDashboard()" id="btnDashboard" class="oculto">
+                    Ir para minha dashboard
+                </button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    const listaDeQuestoes = [
+        {
+            pergunta: "Em um fim de semana perfeito, você estaria...",
+            alternativaA: { texto: "Na praia, ouvindo o som das ondas.", elemento: "agua" },
+            alternativaB: { texto: "Em uma festa cheia de energia.", elemento: "fogo" },
+            alternativaC: { texto: "Fazendo trilha ou no meio da natureza.", elemento: "terra" },
+            alternativaD: { texto: "Explorando lugares novos sem roteiro fixo.", elemento: "ar" }
+        },
+        {
+            pergunta: "Quando surge um problema inesperado, você...",
+            alternativaA: { texto: "Procura acalmar todos e entender a situação.", elemento: "agua" },
+            alternativaB: { texto: "Assume a liderança e toma decisões rápidas.", elemento: "fogo" },
+            alternativaC: { texto: "Analisa com calma e pensa em soluções práticas.", elemento: "terra" },
+            alternativaD: { texto: "Se adapta e muda o plano sem estresse.", elemento: "ar" }
+        },
+        {
+            pergunta: "Qual dessas palavras mais combina com você?",
+            alternativaA: { texto: "Empatia", elemento: "agua" },
+            alternativaB: { texto: "Intensidade", elemento: "fogo" },
+            alternativaC: { texto: "Estabilidade", elemento: "terra" },
+            alternativaD: { texto: "Liberdade", elemento: "ar" }
+        },
+        {
+            pergunta: "Em um grupo de amigos, você é quem...",
+            alternativaA: { texto: "Ouve e acolhe todo mundo.", elemento: "agua" },
+            alternativaB: { texto: "Anima o rolê e puxa as ideias mais ousadas.", elemento: "fogo" },
+            alternativaC: { texto: "Organiza tudo e garante que nada saia do controle.", elemento: "terra" },
+            alternativaD: { texto: "Vai de grupo em grupo, conversando com vários.", elemento: "ar" }
+        }
+    ];
+
+    let numeroDaQuestaoAtual = 0;
+    const quantidadeDeQuestoes = listaDeQuestoes.length;
+
+    let pontos = {
+        agua: 0,
+        fogo: 0,
+        ar: 0,
+        terra: 0
+    };
+
+    function onloadEsconder() {
+        document.getElementById("jogo").classList.add("oculto");
+        document.getElementById("resultadoFinal").classList.add("oculto");
+    }
+
+    function iniciarQuiz() {
+        document.getElementById("divInicio").classList.add("oculto");
+        document.getElementById("jogo").classList.remove("oculto");
+
+        document.getElementById("qtdQuestoes").innerText = quantidadeDeQuestoes;
+
+        numeroDaQuestaoAtual = 0;
+        resetarPontos();
+        carregarQuestao(numeroDaQuestaoAtual);
+    }
+
+    function resetarPontos() {
+        pontos.agua = 0;
+        pontos.fogo = 0;
+        pontos.ar = 0;
+        pontos.terra = 0;
+    }
+
+    function carregarQuestao(indice) {
+        const questao = listaDeQuestoes[indice];
+        numeroDaQuestaoAtual = indice;
+
+        document.getElementById("spanNumeroDaQuestaoAtual").innerText = indice + 1;
+        document.getElementById("spanQuestaoExibida").innerText = questao.pergunta;
+
+        document.getElementById("labelOpcaoUm").innerText = questao.alternativaA.texto;
+        document.getElementById("labelOpcaoDois").innerText = questao.alternativaB.texto;
+        document.getElementById("labelOpcaoTres").innerText = questao.alternativaC.texto;
+        document.getElementById("labelOpcaoQuatro").innerText = questao.alternativaD.texto;
+
+        desmarcarRadioButtons();
+
+        const btnProx = document.getElementById("btnProx");
+        btnProx.disabled = true;
+
+        const options = document.getElementsByName("option");
+        options.forEach(function (option) {
+            option.onclick = function () {
+                btnProx.disabled = false;
+            };
+        });
+    }
+
+    function desmarcarRadioButtons() {
+        const options = document.getElementsByName("option");
+        for (let i = 0; i < options.length; i++) {
+            options[i].checked = false;
+        }
+    }
+
+    function avancar() {
+        const options = document.getElementsByName("option");
+        let selecionado = null;
+
+        options.forEach(function (option) {
+            if (option.checked) {
+                selecionado = option.value;
+            }
+        });
+
+        if (!selecionado) {
+            alert("Por favor, selecione uma alternativa.");
+            return;
+        }
+
+        contabilizarResposta(selecionado);
+
+        if (numeroDaQuestaoAtual < quantidadeDeQuestoes - 1) {
+            carregarQuestao(numeroDaQuestaoAtual + 1);
+        } else {
+            finalizarQuiz();
+        }
+    }
+
+    function contabilizarResposta(valorAlternativa) {
+        const questao = listaDeQuestoes[numeroDaQuestaoAtual];
+        const alternativa = questao[valorAlternativa];
+        const elemento = alternativa.elemento;
+
+        if (pontos[elemento] !== undefined) {
+            pontos[elemento]++;
+        }
+    }
+
+    function finalizarQuiz() {
+        console.log("CHEGOU NA FINALIZARQUIZ");
+
+        const elementoFinal = descobrirElementoFinal();
+
+        let mensagem = "";
+        if (elementoFinal === "agua") {
+            mensagem = "Seu elemento é: ÁGUA.\nVocê é adaptável, empático(a) e costuma acolher as pessoas ao seu redor.";
+        } else if (elementoFinal === "fogo") {
+            mensagem = "Seu elemento é: FOGO.\nVocê é intenso(a), cheio(a) de energia e gosta de liderar e agir.";
+        } else if (elementoFinal === "terra") {
+            mensagem = "Seu elemento é: TERRA.\nVocê é estável, pé no chão e busca segurança e constância.";
+        } else if (elementoFinal === "ar") {
+            mensagem = "Seu elemento é: AR.\nVocê é curioso(a), livre e adora novas ideias e experiências.";
+        } else {
+            mensagem = "Não foi possível determinar seu elemento. Tente refazer o quiz.";
+        }
+
+        document.getElementById("jogo").classList.add("oculto");
+        document.getElementById("resultadoFinal").classList.remove("oculto");
+        document.getElementById("textoResultado").innerText = mensagem;
+
+        document.getElementById("btnDashboard").classList.remove("oculto");
+
+        registrarResultadoQuizNoServidor(elementoFinal);
+    }
+
+    function descobrirElementoFinal() {
+        let elementoFinal = null;
+        let maiorPontuacao = -1;
+
+        for (let elemento in pontos) {
+            if (pontos[elemento] > maiorPontuacao) {
+                maiorPontuacao = pontos[elemento];
+                elementoFinal = elemento;
+            }
+        }
+
+        return elementoFinal;
+    }
+
+    function irParaDashboard() {
+        window.location.href = "/dashboard/dashboard.html";
+    }
+
+
+    function registrarResultadoQuizNoServidor(elementoFinal) {
+        console.log("Registrando resultado do quiz para elemento:", elementoFinal);
+
+        var fkUsuario = sessionStorage.ID_USUARIO;
+        console.log("ID_USUARIO no sessionStorage:", fkUsuario);
+
+        if (!fkUsuario || fkUsuario === "undefined") {
+            console.log("Usuário não identificado. Não será registrado no servidor.");
+            return;
+        }
+
+        fkUsuario = Number(fkUsuario);
+        if (isNaN(fkUsuario)) {
+            console.log("ID_USUARIO inválido.");
+            return;
+        }
+
+        fetch("/quiz/registrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                elementoServer: elementoFinal,
+                idUsuarioServer: fkUsuario
+            })
+        })
+        .then(function (res) {
+            console.log("Status da resposta ao registrar quiz:", res.status);
+            if (res.status === 409) {
+                console.log("Usuário já havia feito o quiz (status 409).");
+            }
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .then(function (dados) {
+            console.log("Dados retornados ao salvar quiz:", dados);
+        })
+        .catch(function (erro) {
+            console.log("Erro ao salvar resultado do quiz:", erro);
+        });
+    }
+
+    function mostrarResultadoExistente(elemento) {
+        document.getElementById("divInicio").classList.add("oculto");
+        document.getElementById("jogo").classList.add("oculto");
+        document.getElementById("resultadoFinal").classList.remove("oculto");
+
+        let mensagem = "";
+
+        if (elemento === "agua") {
+            mensagem = "Seu elemento é: ÁGUA.\nVocê é adaptável, empático(a) e costuma acolher as pessoas ao seu redor.";
+        } else if (elemento === "fogo") {
+            mensagem = "Seu elemento é: FOGO.\nVocê é intenso(a), cheio(a) de energia e gosta de liderar e agir.";
+        } else if (elemento === "terra") {
+            mensagem = "Seu elemento é: TERRA.\nVocê é estável, pé no chão e busca segurança e constância.";
+        } else if (elemento === "ar") {
+            mensagem = "Seu elemento é: AR.\nVocê é curioso(a), livre e adora novas ideias e experiências.";
+        } else {
+            mensagem = "Não foi possível determinar seu elemento.";
+        }
+        document.getElementById("textoResultado").innerText = mensagem;
+
+        document.getElementById("btnDashboard").classList.remove("oculto");
+    }
+
+    function preencherNomeUsuarioSidebar() {
+        const nomeUsuario = sessionStorage.NOME_USUARIO;
+        if (nomeUsuario && nomeUsuario !== "undefined") {
+            document.getElementById("nomeUsuario").textContent = nomeUsuario;
+        } 
+    }
+
+    function verificarlogin() {
+        const idUsuario = sessionStorage.ID_USUARIO;
+
+        if (!idUsuario) {
+            alert("Você precisa estar logado para fazer o quiz!");
+            window.location.href = "/login.html";
+            return;
+        }
+
+        fetch("/quiz/meuElemento/" + idUsuario)
+            .then(res => res.json())
+            .then(dados => {
+                if (dados && dados.length > 0) {
+                    mostrarResultadoExistente(dados[0].elemento);
+                } else {
+                    onloadEsconder(); 
+                }
+            })
+            .catch(err => {
+                console.log("Erro ao verificar elemento do usuário:", err);
+                onloadEsconder();
+            });
+    }
+
+    // --------- ONLOAD GERAL ---------
+    window.onload = function () {
+        preencherNomeUsuarioSidebar();
+        verificarlogin();
+    };
+</script>
+</body>
+</html>
