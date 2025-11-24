@@ -1,203 +1,84 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard - Elementos</title>
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Dashboard - Elementos</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="../css/dashboard.css">
+        <script src="../js/sessao.js"></script>
+        <script src="../js/dashboard.js"></script>
+    </head>
+    <body>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="../css/dashboard.css">
-</head>
-<body>
+        <aside class="sidebar" id="sidebar">
+            <div id="usuarioLogado" style="padding: 20px; color: #f5f5f5; font-weight: bold;">
+                Olá, <span id="nomeUsuario">carregando...</span>!
+            </div>
 
-<aside class="sidebar" id="sidebar">
-    <div id="usuarioLogado" style="padding: 20px; color: #f5f5f5; font-weight: bold;">
-        Olá, <span id="nomeUsuario">carregando...</span>!
-    </div>
-    <nav>
-        <ul>
-            <li style="margin-bottom: 16px;">
-                <a href="/dashboard/quiz-elementos.html" style="color: #f5f5f5; text-decoration: none;">Quiz de Elementos</a>
-            </li>
-            <li>
-                <a href="/dashboard/dashboard.html" style="color: #f5f5f5; text-decoration: none;">Dashboard</a>
-            </li>
-            <li>
-                <a href="#" style="color: #f5f5f5; text-decoration: none;" 
-                onclick="sessionStorage.clear(); window.location.href='/login.html';">
-                Sair
-                </a>
-            </li>
-        </ul>
-    </nav>
-</aside>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/dashboard/quiz-elementos.html" style="color: #f5f5f5; text-decoration: none;">
+                            Quiz de Elementos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="jogo da memoria.html" style="color: #f5f5f5; text-decoration: none;">
+                            Jogo da Memória
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/dashboard.html" style="color: #f5f5f5; text-decoration: none;">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                        style="color: #f5f5f5; text-decoration: none;"
+                        onclick="sessionStorage.clear(); window.location.href='/login.html';">
+                            Sair
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
 
-<main id="main">
-    <div id="container">
-        <h1>Distribuição dos Elementos</h1>
+    <main id="main">
+        <div class="container-dashboard">
+            <div class="cards-grid">
 
-        <div id="meu-elemento">
-            Seu elemento é: <span id="spanElementoUsuario">carregando...</span>
+                <div id="cardPersonagem" class="card-Personagem">
+                    <div id="texto_card" class="texto_card">
+                        Seu elemento é: <span id="spanElementoUsuario">carregando...</span>
+                    </div>
+                </div>
+
+                <div id="cardPorcentagem" class="card-porcentagem">
+                    <h3>Esse é o elemento de</h3>
+                    <span id="spanPorcentagem">0%</span>
+                    <h3>dos usuários<h3>
+                </div>
+
+                <div id="container-grafico">
+                    <canvas id="graficoElementos"></canvas>
+                </div>
+
+                <div id="cardMemoria" class="card-memoria">
+                    <canvas id="graficoMemoria"></canvas>
+                </div>
+
+                <div id="cardMetricas" class="card-Metricas">
+                    <div id="texto_card2" class="texto_card2">
+                        <span id="spanMetricas"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="lista-resumo"></div>
+            <span id="ultima-atualizacao">Última atualização: --:--:--</span>
         </div>
+    </main>
 
-        <span id="ultima-atualizacao">Última atualização: --:--:--</span>
-
-        <div id="container-grafico">
-            <canvas id="graficoElementos"></canvas>
-        </div>
-
-        <div id="lista-resumo"></div>
-    </div>
-</main>
-
-<script>
-    let graficoPizza = null;
-    const INTERVALO_ATUALIZACAO_MS = 10000; 
-
-    function inicializarDashboard() {
-        carregarDashboard();
-        carregarMeuElemento(); 
-
-        setInterval(carregarDashboard, INTERVALO_ATUALIZACAO_MS);
-    }
-
-    function carregarDashboard() {
-        fetch("/quiz/dashboard")
-            .then(function (resposta) {
-                if (!resposta.ok) {
-                    console.log("Erro ao buscar dados da dashboard. Status:", resposta.status);
-                    return;
-                }
-
-                resposta.json().then(function (dados) {
-                    console.log("Dados recebidos da API:", dados);
-
-                    if (!dados || dados.length === 0) {
-                        document.getElementById("lista-resumo").innerHTML =
-                            "<p>Nenhum dado registrado ainda.</p>";
-                        return;
-                    }
-
-                    atualizarMomentoUltimaAtualizacao();
-                    atualizarGraficoPizza(dados);
-                    montarResumoTexto(dados);
-                });
-            })
-            .catch(function (erro) {
-                console.log("Erro ao carregar dashboard:", erro);
-                document.getElementById("lista-resumo").innerHTML =
-                    "<p>Erro ao carregar os dados.</p>";
-            });
-    }
-
-    function atualizarMomentoUltimaAtualizacao() {
-        const agora = new Date();
-        const horario = agora.toLocaleTimeString("pt-BR", { hour12: false });
-        document.getElementById("ultima-atualizacao").textContent =
-            "Última atualização: " + horario;
-    }
-
-    function atualizarGraficoPizza(dados) {
-        const ctx = document.getElementById("graficoElementos").getContext("2d");
-
-        const labels = dados.map(function (linha) {
-            return linha.elemento.toUpperCase();
-        });
-        const valores = dados.map(function (linha) {
-            return linha.total;
-        });
-
-        if (!graficoPizza) {
-            graficoPizza = new Chart(ctx, {
-                type: "pie",
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "Quantidade de pessoas",
-                        data: valores
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: "bottom",
-                            labels: {
-                                color: "#f5f5f5"
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: "Distribuição por Elemento",
-                            color: "#f5f5f5"
-                        }
-                    }
-                }
-            });
-        } else {
-            graficoPizza.data.labels = labels;
-            graficoPizza.data.datasets[0].data = valores;
-            graficoPizza.update();
-        }
-    }
-
-    function montarResumoTexto(dados) {
-        const container = document.getElementById("lista-resumo");
-        container.innerHTML = "";
-
-        dados.forEach(function (linha) {
-            const p = document.createElement("p");
-            p.textContent = "Elemento: " + linha.elemento.toUpperCase() + " - Total: " + linha.total;
-            container.appendChild(p);
-        });
-    }
-
-    function carregarMeuElemento() {
-        var idUsuario = sessionStorage.ID_USUARIO;
-
-        console.log("ID_USUARIO no sessionStorage:", idUsuario);
-
-        if (!idUsuario || idUsuario === "undefined") {
-            document.getElementById("spanElementoUsuario").textContent = "usuário não identificado";
-            return;
-        }
-
-        fetch("/quiz/meuElemento/" + idUsuario)
-            .then(function (resposta) {
-                if (!resposta.ok) {
-                    console.log("Erro ao buscar elemento do usuário. Status:", resposta.status);
-                    document.getElementById("spanElementoUsuario").textContent = "erro ao carregar";
-                    return;
-                }
-
-                resposta.json().then(function (dados) {
-                    console.log("Dados do elemento do usuário:", dados);
-
-                    if (!dados || dados.length === 0) {
-                        document.getElementById("spanElementoUsuario").textContent = "nenhum quiz respondido ainda";
-                        return;
-                    }
-
-                    var elemento = dados[0].elemento; 
-                    document.getElementById("spanElementoUsuario").textContent = elemento.toUpperCase();
-                });
-            })
-            .catch(function (erro) {
-                console.log("Erro ao carregar elemento do usuário:", erro);
-                document.getElementById("spanElementoUsuario").textContent = "erro ao carregar";
-            });
-    }
-
-    function preencherNomeUsuarioSidebar() {
-        const nomeUsuario = sessionStorage.NOME_USUARIO;
-        if (nomeUsuario && nomeUsuario !== "undefined") {
-            document.getElementById("nomeUsuario").textContent = nomeUsuario;
-        } 
-    }
-
-    window.onload = function() {
-        preencherNomeUsuarioSidebar();
-        inicializarDashboard();
-    };
-</script>
-</body>
-</html>
+    </body>
+    </html>

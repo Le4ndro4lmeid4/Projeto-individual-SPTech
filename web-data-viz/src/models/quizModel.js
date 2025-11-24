@@ -1,3 +1,4 @@
+// quizModel.js
 var database = require("../database/config");
 
 const ID_QUIZ_ELEMENTOS = 1;
@@ -45,13 +46,16 @@ function buscarDashboard() {
     return database.executar(instrucaoSql);
 }
 
-function buscarUltimoPorUsuario(fkUsuario) {
-    console.log("quizModel -> buscarUltimoPorUsuario()", fkUsuario);
+function buscarQuizPorUsuario(fkUsuario) {
+    console.log("quizModel -> buscarQuizPorUsuario()", fkUsuario);
 
     fkUsuario = Number(fkUsuario);
 
     var instrucaoSql = `
-        SELECT resultadoElemento AS elemento, dtRealizacao AS data_registro
+        SELECT 
+            idUsuarioQuiz,
+            resultadoElemento AS elemento,
+            dtRealizacao AS data_registro
         FROM usuarioQuiz
         WHERE fkUsuario = ${fkUsuario}
           AND fkQuiz = ${ID_QUIZ_ELEMENTOS}
@@ -63,9 +67,34 @@ function buscarUltimoPorUsuario(fkUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function registrarRespostasUsuario(idUsuarioQuiz, respostas) {
+    console.log("quizModel -> registrarRespostasUsuario()", idUsuarioQuiz, respostas);
+
+    var valores = [];
+
+    for (var i = 0; i < respostas.length; i++) {
+        var r = respostas[i];
+        valores.push(`(${idUsuarioQuiz}, ${r.indicePergunta}, ${r.indiceOpcao})`);
+    }
+
+    if (valores.length === 0) {
+        console.log("Nenhuma resposta para inserir.");
+        return;
+    }
+
+    var instrucaoSql = `
+        INSERT INTO respostaUsuario (fkUsuarioQuiz, indicePergunta, indiceOpcao)
+        VALUES ${valores.join(", ")};
+    `;
+
+    console.log("Executando SQL:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     verificarSeJaFezQuiz,
     registrarResultadoQuiz,
     buscarDashboard,
-    buscarUltimoPorUsuario
+    buscarQuizPorUsuario,
+    registrarRespostasUsuario
 };

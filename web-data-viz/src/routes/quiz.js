@@ -8,11 +8,11 @@ router.post("/registrar", function (req, res) {
 });
 
 router.get("/dashboard", function (req, res) {
-    quizController.buscarDashboard(req, res);
+    quizController.dashboard(req, res); 
 });
 
 router.get("/meuElemento/:idUsuario", function (req, res) {
-    quizController.buscarUltimoPorUsuario(req, res);
+    quizController.meuElemento(req, res);
 });
 
 module.exports = router;

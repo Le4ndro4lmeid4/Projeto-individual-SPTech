@@ -5,7 +5,6 @@
 /*
 comandos para mysql server
 */
-
 CREATE DATABASE avatar;
 
 USE avatar;
@@ -15,36 +14,59 @@ CREATE TABLE usuario (
 	idUsuario INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(50),
 	email VARCHAR(50),
-	senha VARCHAR(50),
-    elemento VARCHAR(20)
+	senha VARCHAR(50)
 );
 
 CREATE TABLE quiz (
     idQuiz INT PRIMARY KEY AUTO_INCREMENT,
-    nomeQuiz VARCHAR(100)
+    nomeQuiz VARCHAR(40)
 );
 
 
-CREATE TABLE usuario_teste (
-    idUsuarioTeste INT,
-    fk_usuario INT NOT NULL,
-    fk_teste INT NOT NULL,
-    elemento_resultante VARCHAR(20),
-    dt_realizacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
-    FOREIGN KEY (fk_teste) REFERENCES teste(id_teste)
+CREATE TABLE usuarioQuiz (
+    idUsuarioQuiz INT PRIMARY KEY AUTO_INCREMENT,
+    fkUsuario INT NOT NULL,
+    fkQuiz INT NOT NULL,
+    resultadoElemento VARCHAR(20),
+    dtRealizacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
+    FOREIGN KEY (fkQuiz) REFERENCES quiz (idQuiz),
+    UNIQUE (fkUsuario, fkQuiz)
 );
 
--- Armazena as respostas por índice
-CREATE TABLE resposta_usuario (
-    id_resposta INT PRIMARY KEY AUTO_INCREMENT,
-    fk_usuario_teste INT NOT NULL,
-    indice_pergunta INT NOT NULL,  -- posição da pergunta na matriz
-    indice_opcao   INT NOT NULL,   -- posição da opção dentro da pergunta
-    FOREIGN KEY (fk_usuario_teste) REFERENCES usuario_teste(id_usuario_teste)
+CREATE TABLE respostaUsuario (
+    idRespostaUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    fkUsuarioQuiz INT NOT NULL,
+    indicePergunta INT NOT NULL,
+    indiceOpcao   INT NOT NULL,
+    FOREIGN KEY (fkUsuarioQuiz) REFERENCES usuarioQuiz(idUsuarioQuiz)
 );
 
-INSERT into usuario values
+CREATE TABLE jogo (
+    idJogo INT PRIMARY KEY AUTO_INCREMENT,
+    nomeJogo VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE partidaMemoria (
+    idPartida INT PRIMARY KEY AUTO_INCREMENT,
+    fkUsuario INT NOT NULL,
+    fkJogo INT NOT NULL,
+    pontuacao INT NOT NULL,
+    tempoSegundos INT NOT NULL,
+    dataPartida DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
+    FOREIGN KEY (fkJogo) REFERENCES jogo(idJogo)
+);
+
+INSERT into usuario (idUsuario, nome, email, senha) values
 (DEFAULT, 'guido', 'guido@gmail.com', '65279818');
 
+INSERT INTO quiz (nomeQuiz) VALUES
+('Quiz dos Elementos da Natureza');
 
+INSERT INTO jogo (nomeJogo) VALUES
+('Jogo da memória');
+
+SELECT * from usuario;
+
+select * from partidaMemoria;

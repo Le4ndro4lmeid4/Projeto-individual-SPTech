@@ -8,26 +8,25 @@
 
   <title>AquaTech | Cadastro</title>
 
-  <script src="./js/sessao.js"></script>
+  <script src="./js/sessao.js" defer></script>
+  <script src="./js/cadastro.js" defer></script>
 
   <link rel="stylesheet" href="./css/cadastro.css" />
   <link rel="icon" href="./assets/icon/favicon2.ico" />
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="listar()">
-  <!--header inicio-->
-    <header>
-      <nav>
-        <ul>
-          <li><a href="index.html">Início</a></li>
-          <li><a href="cenasfavoritas.html">Cenas favoritas</a></li>
-          <li><a href="login.html" class="login-btn">Login</a></li>
-          <li><a href="cadastro.html">Cadastro</a></li>
-        </ul>
-      </nav>
-    </header>
-  <!--header fim-->
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="cenasfavoritas.html">Cenas favoritas</a></li>
+        <li><a href="login.html" class="login-btn">Login</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <div class="login">
     <div class="alerta_erro">
@@ -59,7 +58,6 @@
           <button class="botao" onclick="cadastrar()">Cadastrar</button>
         </div>
 
-
         <div id="div_erros_login"></div>
       </div>
     </div>
@@ -67,71 +65,3 @@
 </body>
 
 </html>
-
-<script>
-
-
-  function cadastrar() {
-  
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == ""
-    ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
-
-      finalizarAguardar();
-      return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
-    }
-
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          cardErro.style.display = "block";
-
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-          setTimeout(() => {
-            window.location = "login.html";
-          }, "2000");
-
-          limparFormulario();
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
-      });
-
-    return false;
-  }
-
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
-</script>

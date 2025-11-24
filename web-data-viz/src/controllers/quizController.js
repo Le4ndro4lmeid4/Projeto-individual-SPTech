@@ -1,76 +1,109 @@
+// quizController.js
 var quizModel = require("../models/quizModel");
 
-// Registrar resultado do quiz
-// Regra: se já fez o quiz, não deixa registrar de novo
 function registrar(req, res) {
     var elemento = req.body.elementoServer;
     var idUsuario = req.body.idUsuarioServer;
+    var respostas = req.body.respostasServer;
 
-    console.log("quizController -> registrar:", elemento, idUsuario);
-
-    if (elemento == undefined) {
-        res.status(400).send("O campo 'elemento' está undefined!");
-    } else if (idUsuario == undefined) {
-        res.status(400).send("O idUsuario está undefined!");
-    } else {
-        // 1) Verifica se já fez
-        quizModel.verificarSeJaFezQuiz(idUsuario)
-            .then(function (resultado) {
-                if (resultado.length > 0) {
-                    // Já tem registro desse quiz pra esse usuário
-                    res.status(409).send("Você já respondeu este quiz. Não é permitido refazer.");
-                } else {
-                    // 2) Se não fez, registra
-                    return quizModel.registrarResultadoQuiz(idUsuario, elemento)
-                        .then(function (resInsert) {
-                            res.json({
-                                mensagem: "Resultado registrado com sucesso!",
-                                resultado: resInsert
-                            });
-                        });
-                }
-            })
-            .catch(function (erro) {
-                console.log("Erro ao registrar quiz:", erro);
-                res.status(500).json(erro.sqlMessage || erro);
-            });
+    if (!elemento || !idUsuario) {
+        res.status(400).send("elementoServer e idUsuarioServer são obrigatórios!");
+        return;
     }
-}
 
-// Dashboard geral (total por elemento)
-function buscarDashboard(req, res) {
-    quizModel.buscarDashboard()
-        .then(function (resultado) {
-            res.json(resultado);
+    idUsuario = Number(idUsuario);
+
+    quizModel.verificarSeJaFezQuiz(idUsuario)
+        .then(function (resultadoVerificacao) {
+            if (resultadoVerificacao.length > 0) {
+                console.log("Usuário já fez o quiz. Bloqueando novo registro.");
+                res.status(409).send("Usuário já respondeu este quiz.");
+                return;
+            }
+
+            return quizModel.registrarResultadoQuiz(idUsuario, elemento);
+        })
+        .then(function (resultadoInsert) {
+            if (!resultadoInsert) {
+                return;
+            }
+
+            return quizModel.buscarQuizPorUsuario(idUsuario);
+        })
+        .then(function (resultadoQuizUsuario) {
+            if (!resultadoQuizUsuario) {
+                return;
+            }
+
+            var registro = resultadoQuizUsuario[0];
+            var idUsuarioQuiz = registro.idUsuarioQuiz;
+
+            console.log("idUsuarioQuiz encontrado:", idUsuarioQuiz);
+
+            if (respostas && respostas.length > 0) {
+                return quizModel.registrarRespostasUsuario(idUsuarioQuiz, respostas)
+                    .then(function () {
+                        res.status(201).json({
+                            mensagem: "Quiz e respostas salvos com sucesso!",
+                            elemento: registro.elemento,
+                            idUsuarioQuiz: idUsuarioQuiz
+                        });
+                    });
+            } else {
+                res.status(201).json({
+                    mensagem: "Quiz salvo com sucesso!",
+                    elemento: registro.elemento,
+                    idUsuarioQuiz: idUsuarioQuiz
+                });
+            }
         })
         .catch(function (erro) {
-            console.log("Erro ao buscar dashboard:", erro);
-            res.status(500).json(erro.sqlMessage || erro);
+            console.log("Erro no registrar quiz:", erro);
+            res.status(500).json(erro);
         });
 }
 
-// Buscar último elemento do usuário
-function buscarUltimoPorUsuario(req, res) {
+function dashboard(req, res) {
+    quizModel.buscarDashboard()
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum dado encontrado");
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro ao buscar dashboard:", erro);
+            res.status(500).json(erro);
+        });
+}
+
+function meuElemento(req, res) {
     var idUsuario = req.params.idUsuario;
 
-    console.log("quizController -> buscarUltimoPorUsuario:", idUsuario);
-
-    if (idUsuario == undefined) {
-        res.status(400).send("O idUsuario está undefined!");
-    } else {
-        quizModel.buscarUltimoPorUsuario(idUsuario)
-            .then(function (resultado) {
-                res.json(resultado);
-            })
-            .catch(function (erro) {
-                console.log("Erro ao buscar último resultado:", erro);
-                res.status(500).json(erro.sqlMessage || erro);
-            });
+    if (!idUsuario) {
+        res.status(400).send("idUsuario é obrigatório.");
+        return;
     }
+
+    idUsuario = Number(idUsuario);
+
+    quizModel.buscarQuizPorUsuario(idUsuario)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum quiz encontrado para esse usuário.");
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro ao buscar elemento do usuário:", erro);
+            res.status(500).json(erro);
+        });
 }
 
 module.exports = {
     registrar,
-    buscarDashboard,
-    buscarUltimoPorUsuario
+    dashboard,
+    meuElemento
 };
