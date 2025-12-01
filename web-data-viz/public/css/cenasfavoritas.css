@@ -126,6 +126,10 @@ select {
   transition: transform 0.2s ease, filter 0.3s;
 }
 
+.cena-item:last-child {
+    margin-bottom: 50px; /* ou o valor que você quiser */
+}
+
 .cena-item:hover {
   transform: scale(1.05);
   filter: brightness(1.2);
@@ -171,7 +175,7 @@ select {
   background: rgba(0, 0, 0, 0.5);
   padding: 15px 25px;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
   transition: opacity 0.5s ease-in-out;
   text-align: center;
   margin: 0;

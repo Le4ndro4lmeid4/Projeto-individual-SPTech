@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     height: 100vh;
-    display: flex;              /* sidebar + main lado a lado */
+    display: flex;
 }
 
 /* SIDEBAR */
@@ -12,9 +12,6 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     border-right: 2px solid #333;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
 }
 
 .sidebar ul {
@@ -35,16 +32,21 @@ body {
 
 main {
     flex: 1; 
-    display: flex;
     justify-content: center; 
     align-items: center;    
     min-height: 100vh;
+}
+
+.jogoMemoria {
+text-align: center;
+margin-top: 50px;
 }
 
       #div_tabela {
         display: grid;
         grid-template-columns: repeat(4, 100px);
         gap: 10px;
+        justify-content: center;
       }
 
       .carta {

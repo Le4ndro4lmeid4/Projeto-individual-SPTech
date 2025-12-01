@@ -170,7 +170,7 @@ main {
 /* CARD MEMÓRIA */
 .card-memoria {
     grid-area: card-memoria;
-    width: 515px;
+    width: 520px;
     height: 250px;
     display: flex;
     justify-content: center;

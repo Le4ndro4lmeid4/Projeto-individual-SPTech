@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="side-box">
+            <div class="tips">
+                <div class="title">
+                    <h1>CRUZADINHA</h1>
+                </div>
+                <div class="questions">
+                    <span>1. Unidade central de processamento</span>
+                    <span>2. Unidade responsável pelos cálculos de um computador</span>
+                    <span>3. Pequenas memórias internas utilizadas para armazenar dados temporários</span>
+                    <span>4. Memória temporária onde dados são armazenados enquanto o computador estiver ligado</span>
+                    <span>5. Memória permanente que guarda dados essenciais para o funcionamento do sistema</span>
+                    <span>6. Forma de memória de computador que mantém seus dados quando a energia é desligada</span>
+                    <span>7. Armazenamento não volátil que retém dados mesmo sem energia</span>
+                    <span>8. Armazena grandes quantidades de informação</span>
+                    <span>9. Característica de computadores mais modernos, que possibilita que determinados subsistemas
+                        de hardware dentro do computador acessem a memória do sistema, sem depender da unidade de
+                        processamento central</span>
+                    <span>10. Linha de controle em circuitos que ativa um dispositivo específico em um barramento quando
+                        há múltiplos dispositivos conectados</span>
+                    <span>11. “Estradas” que indicam a localização específica na memória ou dispositivo que será lido ou
+                        gravado</span>
+                    <span>12. Sistema computacional que transporta dados e instruções entre os componentes de um
+                        computador</span>
+                    <span>13. Processador INTEL intermediário, focado em multitarefas e possui menor número de núcleos e
+                        threads</span>
+                    <span>14. Processador INTEL de alto desempenho, focado em tarefas mais exigentes e possui um maior
+                        número de núcleos e threads</span>
+                    <span>15. Processador com dois núcleos, ou seja, dois núcleos/duas unidades de processamento,
+                        trabalhando internamente em paralelo</span>
+                    <span>16. Processador com quatro núcleos, ou seja, quatro núcleos/quatro unidades de processamento,
+                        trabalhando internamente em paralelo</span>
+                </div>
+                <input type="text" id="input_awnser" onkeydown="send(event)">
+            </div>
+        </div>
+        <div class="grid">
+            <table class="crossword">
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">16.</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space quadcore">Q</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">6.</td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">13.</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space quadcore">U</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="number-space registradores">3.</td>
+                    <td class="awnser-space registradores">R</td>
+                    <td class="awnser-space registradores eprom">E</td>
+                    <td class="awnser-space registradores">G</td>
+                    <td class="awnser-space registradores">I</td>
+                    <td class="awnser-space registradores">S</td>
+                    <td class="awnser-space registradores">T</td>
+                    <td class="awnser-space registradores">R</td>
+                    <td class="awnser-space quadcore registradores">A</td>
+                    <td class="awnser-space registradores">D</td>
+                    <td class="awnser-space registradores">O</td>
+                    <td class="awnser-space registradores">R</td>
+                    <td class="awnser-space registradores">E</td>
+                    <td class="awnser-space registradores">S</td>
+                    <td class="number-space registradores">7.</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space eprom">P</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space quadcore">D</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space flash">F</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space eprom">R</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">12.</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space quadcore">C</td>
+                    <td class="number-space">8.</td>
+                    <td class="number-space">15.</td>
+                    <td class="awnser-space dualcore">D</td>
+                    <td class="awnser-space dualcore">U</td>
+                    <td class="awnser-space dualcore">A</td>
+                    <td class="awnser-space flash dualcore">L</td>
+                    <td class="awnser-space dualcore">C</td>
+                    <td class="awnser-space dualcore">O</td>
+                    <td class="awnser-space dualcore">R</td>
+                    <td class="awnser-space dualcore">E</td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space eprom">O</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space databus">D</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space quadcore">O</td>
+                    <td class="awnser-space memoriademassa">M</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">2.</td>
+                    <td class="awnser-space flash">A</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space eprom">M</td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">11.</td>
+                    <td class="awnser-space addressbus">A</td>
+                    <td class="awnser-space addressbus">D</td>
+                    <td class="awnser-space addressbus">D</td>
+                    <td class="awnser-space adressbus quadcore">R</td>
+                    <td class="awnser-space adressbus memoriademassa">E</td>
+                    <td class="awnser-space adressbus">S</td>
+                    <td class="awnser-space adressbus">S</td>
+                    <td class="awnser-space adressbus">B</td>
+                    <td class="awnser-space adressbus ula">U</td>
+                    <td class="awnser-space adressbus flash">S</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space databus">T</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space quadcore">E</td>
+                    <td class="awnser-space memoriademassa">M</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space ula">L</td>
+                    <td class="awnser-space flash">H</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space databus">A</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space memoriademassa">Ó</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space ula">A</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">10.</td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space databus">B</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">5.</td>
+                    <td class="awnser-space memoriademassa rom">R</td>
+                    <td class="awnser-space rom">O</td>
+                    <td class="awnser-space rom">M</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">1.</td>
+                    <td class="awnser-space cpu cs">C</td>
+                    <td class="awnser-space cpu">P</td>
+                    <td class="awnser-space databus cpu">U</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">14.</td>
+                    <td class="awnser-space memoriademassa i7">I</td>
+                    <td class="awnser-space i7">7</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space cs">S</td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space databus">S</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space memoriademassa">A</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space memoriademassa">D</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space memoriademassa">E</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">9.</td>
+                    <td class="awnser-space dma">D</td>
+                    <td class="awnser-space memoriademassa dma">M</td>
+                    <td class="awnser-space dma">A</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space memoriademassa">A</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space memoriademassa">S</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="awnser-space memoriademassa">S</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td </tr>
+
+                <tr>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="number-space">4.</td>
+                    <td class="awnser-space ram">R</td>
+                    <td class="awnser-space memoriademassa ram">A</td>
+                    <td class="awnser-space ram">M</td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                    <td class="tdNull"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    body {
+        margin: 0px;
+    }
+
+    .container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: azure;
+        flex-direction: row;
+    }
+
+    .tips {
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: justify;
+        background-color: blue;
+        height: 100vh;
+    }
+
+    .questions {
+        display: flex;
+        height: 75vh;
+        width: 75%;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .tips input {
+        margin-top: 5vh;
+        width: 20vw;
+        height: 4vh;
+        border-radius: 4px;
+        border-width: 0;
+    }
+
+    table {
+        width: 50vw;
+        height: 95vh;
+    }
+
+    .awnser-space {
+        border: 1px solid;
+        border-radius: 4px;
+        border-color: blue;
+        width: 20px;
+        height: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        font-size: 15px;
+        color: transparent;
+    }
+
+    .number-space {
+        border: none;
+        font-size: 15px;
+        width: 1vw;
+        height: 1vh;
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        color: blue;
+    }
+</style>
+<script>
+    function send(event) {
+
+        if (event.key !== "Enter") return;
+
+        var filled = document.getElementById("input_awnser").value;
+
+        filled = filled.toLowerCase();
+        filled = filled.replaceAll(" ", "");
+
+        var squares = document.querySelectorAll("." + filled);
+
+        if (squares.length > 0) {
+
+            for (var i = 0; i < squares.length; i++) {
+                squares[i].style.color = "blue";
+            }
+
+            document.getElementById("input_awnser").value = "";
+            alert("Certa resposta!");
+
+        } else {
+            alert("PAAAAN! Errado, tente de novo.");
+        }
+    }
+</script>

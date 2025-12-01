@@ -28,7 +28,7 @@ function cadastrar() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      },
+    },
     body: JSON.stringify({
       nomeServer: nomeVar,
       emailServer: emailVar,

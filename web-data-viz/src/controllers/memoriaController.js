@@ -6,81 +6,88 @@ function registrarPartida(req, res) {
     var pontuacao = req.body.pontuacaoServer;
     var tempoSegundos = req.body.tempoSegundosServer;
 
-    if (!fkUsuario || !fkJogo || pontuacao == null || tempoSegundos == null) {
-        res.status(400).send("Parâmetros faltando para registrar partida.");
-        return;
-    }
-
-    memoriaModel.registrarPartida(fkUsuario, fkJogo, pontuacao, tempoSegundos)
-        .then(function (resultado) {
-            res.status(201).json({
-                mensagem: "Partida registrada com sucesso!",
-                resultado: resultado
+    if (fkUsuario == undefined) {
+        res.status(400).send("fkUsuarioServer está undefined!");
+    } else if (fkJogo == undefined) {
+        res.status(400).send("fkJogoServer está undefined!");
+    } else if (pontuacao == undefined) {
+        res.status(400).send("pontuacaoServer está undefined!");
+    } else if (tempoSegundos == undefined) {
+        res.status(400).send("tempoSegundosServer está undefined!");
+    } else {
+        memoriaModel.registrarPartida(fkUsuario, fkJogo, pontuacao, tempoSegundos)
+            .then(function (resultado) {
+                res.status(201).json({
+                    mensagem: "Partida registrada com sucesso!",
+                    resultado: resultado
+                });
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao registrar a partida! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
             });
-        })
-        .catch(function (erro) {
-            console.log("Erro ao registrar partida de memória:", erro);
-            res.status(500).json(erro);
-        });
+    }
 }
 
 function dashboardGeral(req, res) {
     memoriaModel.buscarResumoGeral()
-        .then(resultado => {
+        .then(function (resultado) {
             if (resultado.length > 0) {
-                res.json(resultado);
+                res.status(200).json(resultado);
             } else {
-                res.status(204).send();
+                res.status(204).send("Nenhum dado encontrado para o resumo geral.");
             }
         })
-        .catch(erro => {
-            console.error("Erro ao buscar resumo geral:", erro);
-            res.status(500).json(erro);
+        .catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao buscar o resumo geral! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
         });
 }
 
 function minhasPartidas(req, res) {
     var idUsuario = req.params.idUsuario;
 
-    if (!idUsuario) {
-        res.status(400).send("idUsuario é obrigatório.");
-        return;
+    if (idUsuario == undefined) {
+        res.status(400).send("idUsuario está undefined!");
+    } else {
+        memoriaModel.buscarPartidasPorUsuario(idUsuario)
+            .then(function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    res.status(204).send("Nenhuma partida encontrada");
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar as partidas do usuário! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
     }
-
-    memoriaModel.buscarPartidasPorUsuario(idUsuario)
-        .then(function (resultado) {
-            if (resultado.length > 0) {
-                res.status(200).json(resultado);
-            } else {
-                res.status(204).send("Nenhuma partida encontrada");
-            }
-        })
-        .catch(function (erro) {
-            console.log("Erro ao buscar últimas partidas:", erro);
-            res.status(500).json(erro);
-        });
 }
 
 function resumoUsuario(req, res) {
-    const idUsuario = req.params.idUsuario;
+    var idUsuario = req.params.idUsuario;
 
-    if (!idUsuario) {
-        res.status(400).send("idUsuario é obrigatório.");
-        return;
+    if (idUsuario == undefined) {
+        res.status(400).send("idUsuario está undefined!");
+    } else {
+        memoriaModel.buscarResumoPorUsuario(idUsuario)
+            .then(function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado[0]);
+                } else {
+                    res.status(204).send("Nenhum resumo encontrado para esse usuário.");
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar o resumo do usuário! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
     }
-
-    memoriaModel.buscarResumoPorUsuario(idUsuario)
-        .then(resultado => {
-            if (resultado.length > 0) {
-                res.json(resultado[0]); 
-            } else {
-                res.status(204).send();
-            }
-        })
-        .catch(erro => {
-            console.error(erro);
-            res.status(500).json(erro);
-        });
 }
 
 module.exports = {

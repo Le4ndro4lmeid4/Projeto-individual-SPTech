@@ -3,36 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <title>Jogo da Memória</title>
-    <link rel="stylesheet" href="../css/jogodamemoria.css">
+    <link rel="stylesheet" href="../css/jogodamemoria.css" />
     <script src="../js/sessao.js"></script>
   </head>
   <body>
     <aside class="sidebar" id="sidebar">
-      <div id="usuarioLogado" style="padding: 20px; color: #f5f5f5; font-weight: bold;">
+      <div
+        id="usuarioLogado"
+        style="padding: 20px; color: #f5f5f5; font-weight: bold"
+      >
         Olá, <span id="nomeUsuario">carregando...</span>!
       </div>
 
       <nav>
         <ul>
           <li>
-            <a href="/dashboard/quiz-elementos.html" style="color: #f5f5f5; text-decoration: none;">
+            <a
+              href="/dashboard/quiz-elementos.html"
+              style="color: #f5f5f5; text-decoration: none"
+            >
               Quiz de Elementos
             </a>
           </li>
           <li>
-            <a href="/dashboard/jogo-memoria.html" style="color: #f5f5f5; text-decoration: none;">
+            <a
+              href="/dashboard/jogo-memoria.html"
+              style="color: #f5f5f5; text-decoration: none"
+            >
               Jogo da Memória
             </a>
           </li>
           <li>
-            <a href="/dashboard/dashboard.html" style="color: #f5f5f5; text-decoration: none;">
+            <a
+              href="/dashboard/dashboard.html"
+              style="color: #f5f5f5; text-decoration: none"
+            >
               Dashboard
             </a>
           </li>
           <li>
-            <a href="#"
-               style="color: #f5f5f5; text-decoration: none;"
-               onclick="sessionStorage.clear(); window.location.href='/login.html';">
+            <a
+              href="#"
+              style="color: #f5f5f5; text-decoration: none"
+              onclick="sessionStorage.clear(); window.location.href='/login.html';"
+            >
               Sair
             </a>
           </li>
@@ -41,18 +55,28 @@
     </aside>
 
     <main id="main">
-      <h1>Jogo da Memória</h1>
+      <div class="jogoMemoria">
+        <h1>Jogo da Memória</h1>
 
-      <p>Jogadas: <span id="span_jogadas">0</span></p>
-      <p>Tempo: <span id="span_tempo">0</span> segundos</p>
-      <p id="p_mensagem"></p>
+        <p>Jogadas: <span id="span_jogadas">0</span></p>
+        <p>Tempo: <span id="span_tempo">0</span> segundos</p>
+        <p id="p_mensagem"></p>
 
-      <button onclick="reiniciarJogo()">Reiniciar</button>
+        <button onclick="reiniciarJogo()">Reiniciar</button>
 
-      <div id="div_tabela"></div>
+        <div id="div_tabela"></div>
+      </div>
     </main>
 
     <script>
+
+      var cartaAbaixada = 0;
+      var cartaVirada = 1;
+      var cartaEncontrada = 2;
+
+      var linhas = 4;
+      var colunas = 4;
+      var totalPares = (linhas * colunas) / 2;
 
       var listaImagens = [
         "",
@@ -63,25 +87,13 @@
         "../assets/imgs/jogodamemoria/aang.webp",
         "../assets/imgs/jogodamemoria/iroh.webp",
         "../assets/imgs/jogodamemoria/suki.webp",
-        "../assets/imgs/jogodamemoria/bumi.jpg"
+        "../assets/imgs/jogodamemoria/bumi.jpg",
       ];
 
-      var linhas = 4;
-      var colunas = 4;
+      // ===================== ESTADO DO JOGO =====================
 
-      var jogoCartas = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
-      ];
-
-      var cartasEstado = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
-      ];
+      var jogoCartas = criarMatriz(linhas, colunas, 0);
+      var cartasEstado = criarMatriz(linhas, colunas, cartaAbaixada);
 
       var primeiraLinha = null;
       var primeiraColuna = null;
@@ -91,12 +103,34 @@
       var inicioPartida = null;
       var fimPartida = null;
       var intervaloTempo = null;
+      var jogoIniciado = false; 
 
       var divTabela = document.getElementById("div_tabela");
       var spanJogadas = document.getElementById("span_jogadas");
       var spanTempo = document.getElementById("span_tempo");
       var pMensagem = document.getElementById("p_mensagem");
 
+      // ===================== FUNÇÕES UTILITÁRIAS =====================
+
+      function criarMatriz(qtdeLinhas, qtdeColunas, valorInicial) {
+        var matriz = [];
+        for (var i = 0; i < qtdeLinhas; i++) {
+          var linha = [];
+          for (var j = 0; j < qtdeColunas; j++) {
+            linha.push(valorInicial);
+          }
+          matriz.push(linha);
+        }
+        return matriz;
+      }
+
+      function preencherMatriz(matriz, valor) {
+        for (var l = 0; l < linhas; l++) {
+          for (var c = 0; c < colunas; c++) {
+            matriz[l][c] = valor;
+          }
+        }
+      }
 
       function embaralhar(lista) {
         for (var i = lista.length - 1; i > 0; i--) {
@@ -106,7 +140,35 @@
           lista[j] = temp;
         }
       }
-      
+
+      function obterIdUsuario() {
+        var id = sessionStorage.ID_USUARIO;
+
+        if (!id || id === "undefined") {
+          return null;
+        }
+
+        id = Number(id);
+        if (isNaN(id)) {
+          return null;
+        }
+
+        return id;
+      }
+
+      function todasCartasCombinadas() {
+        for (var l = 0; l < linhas; l++) {
+          for (var c = 0; c < colunas; c++) {
+            if (cartasEstado[l][c] !== cartaEncontrada) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+
+      // ===================== DESENHO =====================
+
       function desenhar() {
         var conteudo = "";
 
@@ -114,15 +176,15 @@
           for (var c = 0; c < colunas; c++) {
             var valorVisivel = "";
             var classeExtra = "";
+            var estadoCarta = cartasEstado[l][c];
 
-            if (cartasEstado[l][c] == 1 || cartasEstado[l][c] == 2) {
+            if (estadoCarta === cartaVirada || estadoCarta === cartaEncontrada) {
               var valorCarta = jogoCartas[l][c];
-              var caminhoImagem = pegarImagem(valorCarta); 
-
+              var caminhoImagem = listaImagens[valorCarta];
               valorVisivel = `<img src="${caminhoImagem}" alt="Carta ${valorCarta}">`;
             }
 
-            if (cartasEstado[l][c] == 2) {
+            if (estadoCarta === cartaEncontrada) {
               classeExtra = "par-encontrado";
             }
 
@@ -137,20 +199,11 @@
         divTabela.innerHTML = conteudo;
       }
 
-      function todasCartasCombinadas() {
-        for (var l = 0; l < linhas; l++) {
-          for (var c = 0; c < colunas; c++) {
-            if (cartasEstado[l][c] !== 2) {
-              return false;
-            }
-          }
-        }
-        return true;
-      }
+      // ===================== LÓGICA DO JOGO =====================
 
       function reiniciarJogo() {
         var valores = [];
-        for (var v = 1; v <= 8; v++) {
+        for (var v = 1; v <= totalPares; v++) {
           valores.push(v);
           valores.push(v);
         }
@@ -165,12 +218,7 @@
           }
         }
 
-        for (var l = 0; l < linhas; l++) {
-          for (var c = 0; c < colunas; c++) {
-            cartasEstado[l][c] = 0;
-          }
-        }
-
+        preencherMatriz(cartasEstado, cartaAbaixada);
         primeiraLinha = null;
         primeiraColuna = null;
         bloqueado = false;
@@ -179,15 +227,17 @@
         spanJogadas.innerText = jogadas;
         pMensagem.innerText = "";
 
-        inicioPartida = new Date();
+        inicioPartida = null;
         fimPartida = null;
+        jogoIniciado = false;      
         spanTempo.innerText = "0";
-
+              
         if (intervaloTempo) {
           clearInterval(intervaloTempo);
+          intervaloTempo = null;
         }
 
-        intervaloTempo = setInterval(function() {
+        intervaloTempo = setInterval(function () {
           if (inicioPartida && !fimPartida) {
             var agora = new Date();
             var tempoSegundos = Math.round((agora - inicioPartida) / 1000);
@@ -198,19 +248,28 @@
         desenhar();
       }
 
-      function pegarImagem(valor) {
-        return listaImagens[valor];
-      }
-
       function clicarCarta(linha, coluna) {
         if (bloqueado) return;
-
-        if (cartasEstado[linha][coluna] !== 0) return;
-
-        cartasEstado[linha][coluna] = 1;
+      
+        if (cartasEstado[linha][coluna] !== cartaAbaixada) return;
+      
+        if (!jogoIniciado) {
+          jogoIniciado = true;
+          inicioPartida = new Date();
+        
+          intervaloTempo = setInterval(function () {
+            if (inicioPartida && !fimPartida) {
+              var agora = new Date();
+              var tempoSegundos = Math.round((agora - inicioPartida) / 1000);
+              spanTempo.innerText = tempoSegundos;
+            }
+          }, 1000);
+        }
+      
+        cartasEstado[linha][coluna] = cartaVirada;
         desenhar();
-
-        if (primeiraLinha == null && primeiraColuna == null) {
+      
+        if (primeiraLinha === null && primeiraColuna === null) {
           primeiraLinha = linha;
           primeiraColuna = coluna;
           return;
@@ -225,9 +284,10 @@
         var valor1 = jogoCartas[primeiraLinha][primeiraColuna];
         var valor2 = jogoCartas[segundaLinha][segundaColuna];
 
-        if (valor1 == valor2) {
-          cartasEstado[primeiraLinha][primeiraColuna] = 2;
-          cartasEstado[segundaLinha][segundaColuna] = 2;
+        if (valor1 === valor2) {
+
+          cartasEstado[primeiraLinha][primeiraColuna] = cartaEncontrada;
+          cartasEstado[segundaLinha][segundaColuna] = cartaEncontrada;
 
           primeiraLinha = null;
           primeiraColuna = null;
@@ -243,19 +303,21 @@
               clearInterval(intervaloTempo);
             }
 
-            var tempoSegundos = Math.round((fimPartida - inicioPartida) / 1000);
+            var tempoSegundos = Math.round(
+              (fimPartida - inicioPartida) / 1000
+            );
             console.log("Tempo de partida (s):", tempoSegundos);
             console.log("Jogadas:", jogadas);
 
-            // registra no servidor
             registrarPartidaNoServidor(jogadas, tempoSegundos);
           }
         } else {
+          
           bloqueado = true;
 
           setTimeout(function () {
-            cartasEstado[primeiraLinha][primeiraColuna] = 0;
-            cartasEstado[segundaLinha][segundaColuna] = 0;
+            cartasEstado[primeiraLinha][primeiraColuna] = cartaAbaixada;
+            cartasEstado[segundaLinha][segundaColuna] = cartaAbaixada;
 
             primeiraLinha = null;
             primeiraColuna = null;
@@ -266,57 +328,53 @@
         }
       }
 
+      // ===================== BACKEND =====================
 
-      function registrarPartidaNoServidor(pontuacao, tempoSegundos) {
-        var fkUsuario = sessionStorage.ID_USUARIO;
+      function registrarPartidaNoServidor(jogadas, tempoSegundos) {
+        var fkUsuario = obterIdUsuario();
 
-        if (!fkUsuario || fkUsuario === "undefined") {
-          console.log("Usuário não identificado. Não será registrado no servidor.");
+        if (!fkUsuario) {
+          console.log(
+            "Usuário não identificado ou ID inválido. Não será registrado no servidor."
+          );
           return;
         }
 
-        fkUsuario = Number(fkUsuario);
-        if (isNaN(fkUsuario)) {
-          console.log("ID_USUARIO inválido.");
-          return;
-        }
-
-          var fkJogo = 1;
+        var fkJogo = 1;
 
         fetch("/memoria/registrar", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             fkUsuarioServer: fkUsuario,
             fkJogoServer: fkJogo,
-            pontuacaoServer: pontuacao,
-            tempoSegundosServer: tempoSegundos
+            pontuacaoServer: jogadas,
+            tempoSegundosServer: tempoSegundos,
+          }),
+        })
+          .then(function (res) {
+            console.log("Status ao registrar partida de memória:", res.status);
+            if (res.ok) {
+              return res.json();
+            }
           })
-        })
-        .then(function (res) {
-          console.log("Status ao registrar partida de memória:", res.status);
-          if (res.ok) {
-            return res.json();
-          }
-        })
-        .then(function (dados) {
-          console.log("Resposta do servidor ao salvar partida:", dados);
-        })
-        .catch(function (erro) {
-          console.log("Erro ao salvar partida de memória:", erro);
-        });
+          .then(function (dados) {
+            console.log("Resposta do servidor ao salvar partida:", dados);
+          })
+          .catch(function (erro) {
+            console.log("Erro ao salvar partida de memória:", erro);
+          });
       }
 
+      // ===================== INICIALIZAÇÃO =====================
 
       window.onload = function () {
         preencherNomeUsuarioSidebar();
-        reiniciarJogo();
         aplicarCorSidebarPeloElemento();
+        reiniciarJogo();
       };
-
-
     </script>
   </body>
 </html>

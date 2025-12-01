@@ -1,7 +1,7 @@
 var database = require("../database/config");
 
 function registrarPartida(fkUsuario, fkJogo, pontuacao, tempoSegundos) {
-    console.log("memoriaModel -> registrarPartida()", fkUsuario, fkJogo, pontuacao, tempoSegundos);
+    console.log("ACESSEI O MEMORIA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function registrarPartida():", fkUsuario, fkJogo, pontuacao, tempoSegundos);
 
     fkUsuario = Number(fkUsuario);
     fkJogo = Number(fkJogo);
@@ -13,19 +13,19 @@ function registrarPartida(fkUsuario, fkJogo, pontuacao, tempoSegundos) {
         VALUES (${fkUsuario}, ${fkJogo}, ${pontuacao}, ${tempoSegundos});
     `;
 
-    console.log("Executando SQL:\n" + instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function buscarResumoPorUsuario(fkUsuario) {
-    console.log("memoriaModel -> buscarResumoPorUsuario()", fkUsuario);
+    console.log("ACESSEI O MEMORIA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarResumoPorUsuario():", fkUsuario);
 
     fkUsuario = Number(fkUsuario);
 
     var instrucaoSql = `
         SELECT 
-            COUNT(*)       AS total_partidas,
-            AVG(pontuacao) AS media_jogadas,
+            COUNT(*)          AS total_partidas,
+            AVG(pontuacao)    AS media_jogadas,
             AVG(tempoSegundos) AS media_tempo,
             MIN(tempoSegundos) AS melhor_tempo,
             MAX(tempoSegundos) AS pior_tempo
@@ -33,12 +33,12 @@ function buscarResumoPorUsuario(fkUsuario) {
         WHERE fkUsuario = ${fkUsuario};
     `;
 
-    console.log("Executando SQL:\n" + instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function buscarPartidasPorUsuario(fkUsuario) {
-    console.log("memoriaModel -> buscarPartidasPorUsuario()", fkUsuario);
+    console.log("ACESSEI O MEMORIA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarPartidasPorUsuario():", fkUsuario);
 
     fkUsuario = Number(fkUsuario);
 
@@ -54,7 +54,7 @@ function buscarPartidasPorUsuario(fkUsuario) {
         LIMIT 5;
     `;
 
-    console.log("Executando SQL:\n" + instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 

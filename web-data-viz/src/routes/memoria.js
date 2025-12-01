@@ -11,7 +11,7 @@ router.get("/dashboardGeral", function (req, res) {
     memoriaController.dashboardGeral(req, res);
 });
 
-router.post("/minhasPartidas/:idUsuario", function (req, res) {
+router.get("/minhasPartidas/:idUsuario", function (req, res) {
     memoriaController.minhasPartidas(req, res);
 });
 
