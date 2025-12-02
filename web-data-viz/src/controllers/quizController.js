@@ -1,4 +1,3 @@
-// quizController.js
 var quizModel = require("../models/quizModel");
 
 function registrar(req, res) {
@@ -14,52 +13,29 @@ function registrar(req, res) {
     quizModel
       .verificarSeJaFezQuiz(idUsuario)
       .then(function (resultadoVerificacao) {
-        console.log(
-          `Resultados verificação quiz: ${resultadoVerificacao.length}`
-        );
-
         if (resultadoVerificacao.length > 0) {
-          console.log("Usuário já fez o quiz. Bloqueando novo registro.");
           res.status(409).send("Usuário já respondeu este quiz.");
           return;
         }
 
         return quizModel.registrarResultadoQuiz(idUsuario, elemento);
       })
-      .then(function (resultadoInsert) {
-        if (!resultadoInsert) {
-          return;
-        }
-
-        return quizModel.buscarQuizPorUsuario(idUsuario);
-      })
-      .then(function (resultadoQuizUsuario) {
-        if (!resultadoQuizUsuario) {
-          return;
-        }
-
-        var registro = resultadoQuizUsuario[0];
-        var idUsuarioQuiz = registro.idUsuarioQuiz;
-
-        console.log("idUsuarioQuiz encontrado:", idUsuarioQuiz);
-
-        if (respostas && respostas.length > 0) {
-          return quizModel
-            .registrarRespostasUsuario(idUsuarioQuiz, respostas)
-            .then(function () {
-              res.status(201).json({
-                mensagem: "Quiz e respostas salvos com sucesso!",
-                elemento: registro.elemento,
-                idUsuarioQuiz: idUsuarioQuiz,
-              });
-            });
-        } else {
-          res.status(201).json({
+      .then(function () {
+        if (!respostas || respostas.length === 0) {
+          return res.status(201).json({
             mensagem: "Quiz salvo com sucesso!",
-            elemento: registro.elemento,
-            idUsuarioQuiz: idUsuarioQuiz,
+            elemento: elemento,
           });
         }
+
+        return quizModel
+          .registrarRespostasUsuario(idUsuario, 1, respostas)
+          .then(function () {
+            res.status(201).json({
+              mensagem: "Quiz e respostas salvos com sucesso!",
+              elemento: elemento,
+            });
+          });
       })
       .catch(function (erro) {
         console.log("Erro no registrar quiz:", erro);

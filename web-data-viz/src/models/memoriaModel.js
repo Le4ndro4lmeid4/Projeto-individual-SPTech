@@ -1,7 +1,7 @@
 var database = require("../database/config");
 
 function registrarPartida(fkUsuario, fkJogo, pontuacao, tempoSegundos) {
-    console.log("ACESSEI O MEMORIA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function registrarPartida():", fkUsuario, fkJogo, pontuacao, tempoSegundos);
+    console.log("ACESSEI O MEMORIA MODEL \n function registrarPartida():", fkUsuario, fkJogo, pontuacao, tempoSegundos);
 
     fkUsuario = Number(fkUsuario);
     fkJogo = Number(fkJogo);
@@ -18,17 +18,17 @@ function registrarPartida(fkUsuario, fkJogo, pontuacao, tempoSegundos) {
 }
 
 function buscarResumoPorUsuario(fkUsuario) {
-    console.log("ACESSEI O MEMORIA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarResumoPorUsuario():", fkUsuario);
+    console.log("ACESSEI O MEMORIA MODEL \n function buscarResumoPorUsuario():", fkUsuario);
 
     fkUsuario = Number(fkUsuario);
 
     var instrucaoSql = `
         SELECT 
-            COUNT(*)          AS total_partidas,
-            AVG(pontuacao)    AS media_jogadas,
-            AVG(tempoSegundos) AS media_tempo,
-            MIN(tempoSegundos) AS melhor_tempo,
-            MAX(tempoSegundos) AS pior_tempo
+            COUNT(*)            AS total_partidas,
+            AVG(pontuacao)      AS media_jogadas,
+            AVG(tempoSegundos)  AS media_tempo,
+            MIN(tempoSegundos)  AS melhor_tempo,
+            MAX(tempoSegundos)  AS pior_tempo
         FROM partidaMemoria
         WHERE fkUsuario = ${fkUsuario};
     `;
@@ -38,13 +38,13 @@ function buscarResumoPorUsuario(fkUsuario) {
 }
 
 function buscarPartidasPorUsuario(fkUsuario) {
-    console.log("ACESSEI O MEMORIA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarPartidasPorUsuario():", fkUsuario);
+    console.log("ACESSEI O MEMORIA MODEL \n function buscarPartidasPorUsuario():", fkUsuario);
 
     fkUsuario = Number(fkUsuario);
 
     var instrucaoSql = `
         SELECT 
-            idPartida,
+            fkJogo,
             pontuacao,
             tempoSegundos,
             dataPartida

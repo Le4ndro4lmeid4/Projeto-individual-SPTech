@@ -45,7 +45,7 @@
             <a
               href="#"
               style="color: #f5f5f5; text-decoration: none"
-              onclick="sessionStorage.clear(); window.location.href='/login.html';"
+             onclick="limparSessao()"
             >
               Sair
             </a>
@@ -55,17 +55,19 @@
     </aside>
 
     <main id="main">
-      <div class="jogoMemoria">
+<div class="jogoMemoria">
+    <div class="headerJogo">
         <h1>Jogo da Memória</h1>
+        <button  onclick="reiniciarJogo()">Reiniciar</button>
+    </div>
 
-        <p>Jogadas: <span id="span_jogadas">0</span></p>
-        <p>Tempo: <span id="span_tempo">0</span> segundos</p>
-        <p id="p_mensagem"></p>
+    <div class="infoJogo">
+        <p>Jogadas: <span id="span_jogadas">0</span> | Tempo: <span id="span_tempo">0</span> segundos</p>
+    </div>
 
-        <button onclick="reiniciarJogo()">Reiniciar</button>
-
-        <div id="div_tabela"></div>
-      </div>
+    <p id="p_mensagem"></p>
+    <div id="div_tabela"></div>
+</div>
     </main>
 
     <script>
@@ -90,7 +92,6 @@
         "../assets/imgs/jogodamemoria/bumi.jpg",
       ];
 
-      // ===================== ESTADO DO JOGO =====================
 
       var jogoCartas = criarMatriz(linhas, colunas, 0);
       var cartasEstado = criarMatriz(linhas, colunas, cartaAbaixada);
@@ -110,7 +111,6 @@
       var spanTempo = document.getElementById("span_tempo");
       var pMensagem = document.getElementById("p_mensagem");
 
-      // ===================== FUNÇÕES UTILITÁRIAS =====================
 
       function criarMatriz(qtdeLinhas, qtdeColunas, valorInicial) {
         var matriz = [];
@@ -167,7 +167,6 @@
         return true;
       }
 
-      // ===================== DESENHO =====================
 
       function desenhar() {
         var conteudo = "";
@@ -199,7 +198,6 @@
         divTabela.innerHTML = conteudo;
       }
 
-      // ===================== LÓGICA DO JOGO =====================
 
       function reiniciarJogo() {
         var valores = [];
@@ -374,6 +372,7 @@
         preencherNomeUsuarioSidebar();
         aplicarCorSidebarPeloElemento();
         reiniciarJogo();
+        validarSessao()
       };
     </script>
   </body>

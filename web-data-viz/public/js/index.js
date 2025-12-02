@@ -72,14 +72,6 @@ var textoZuko = `Zuko é o príncipe exilado da Nação do Fogo, inicialmente ob
 
 var textos = [textoAang, textoKatara, textoSokka, textoToph, textoZuko];
 
-var fundos = [
-  "linear-gradient(to bottom, #639aab, #417288)",
-  "linear-gradient(to bottom, #1b2d6a, #0f1b3d)",
-  "linear-gradient(to bottom, #545454, #2d2d2d)",
-  "linear-gradient(to bottom, #35702a, #1f3f18)",
-  "linear-gradient(to bottom, #8a211a, #590f0e)",
-];
-
 function mostrarImagemPersonagem() {
   personagens.style.opacity = 0;
   texto.style.opacity = 0;
@@ -89,7 +81,6 @@ function mostrarImagemPersonagem() {
     personagens.style.opacity = 1;
     texto.style.opacity = 1;
     texto.textContent = textos[imagemPersonagemAtual];
-    container2.style.backgroundImage = fundos[imagemPersonagemAtual];
   }, 500);
 }
 

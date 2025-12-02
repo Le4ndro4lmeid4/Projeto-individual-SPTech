@@ -4,12 +4,12 @@ var database = require("../database/config");
 const ID_QUIZ_ELEMENTOS = 1;
 
 function verificarSeJaFezQuiz(fkUsuario) {
-    console.log("ACESSEI O QUIZ MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function verificarSeJaFezQuiz():", fkUsuario);
+    console.log("ACESSEI O QUIZ MODEL \n function verificarSeJaFezQuiz():", fkUsuario);
 
     fkUsuario = Number(fkUsuario);
 
     var instrucaoSql = `
-        SELECT idUsuarioQuiz, resultadoElemento, dtRealizacao
+        SELECT resultadoElemento, dtRealizacao
         FROM usuarioQuiz
         WHERE fkUsuario = ${fkUsuario}
           AND fkQuiz = ${ID_QUIZ_ELEMENTOS};
@@ -20,7 +20,7 @@ function verificarSeJaFezQuiz(fkUsuario) {
 }
 
 function registrarResultadoQuiz(fkUsuario, resultadoElemento) {
-    console.log("ACESSEI O QUIZ MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function registrarResultadoQuiz():", fkUsuario, resultadoElemento);
+    console.log("ACESSEI O QUIZ MODEL \n function registrarResultadoQuiz():", fkUsuario, resultadoElemento);
 
     fkUsuario = Number(fkUsuario);
 
@@ -34,7 +34,7 @@ function registrarResultadoQuiz(fkUsuario, resultadoElemento) {
 }
 
 function buscarDashboard() {
-    console.log("ACESSEI O QUIZ MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarDashboard()");
+    console.log("ACESSEI O QUIZ MODEL \n function buscarDashboard()");
 
     var instrucaoSql = `
         SELECT resultadoElemento AS elemento, COUNT(*) AS total
@@ -47,13 +47,12 @@ function buscarDashboard() {
 }
 
 function buscarQuizPorUsuario(fkUsuario) {
-    console.log("ACESSEI O QUIZ MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarQuizPorUsuario():", fkUsuario);
+    console.log("ACESSEI O QUIZ MODEL \n function buscarQuizPorUsuario():", fkUsuario);
 
     fkUsuario = Number(fkUsuario);
 
     var instrucaoSql = `
         SELECT 
-            idUsuarioQuiz,
             resultadoElemento AS elemento,
             dtRealizacao AS data_registro
         FROM usuarioQuiz
@@ -67,14 +66,17 @@ function buscarQuizPorUsuario(fkUsuario) {
     return database.executar(instrucaoSql);
 }
 
-function registrarRespostasUsuario(idUsuarioQuiz, respostas) {
-    console.log("ACESSEI O QUIZ MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function registrarRespostasUsuario():", idUsuarioQuiz, respostas);
+// Agora registramos respostas usando fkUsuario e fkQuiz (PK composta)
+function registrarRespostasUsuario(fkUsuario, fkQuiz, respostas) {
+    console.log("ACESSEI O QUIZ MODEL \n function registrarRespostasUsuario():", fkUsuario, fkQuiz, respostas);
+
+    fkUsuario = Number(fkUsuario);
+    fkQuiz = Number(fkQuiz);
 
     var valores = [];
-
     for (var i = 0; i < respostas.length; i++) {
         var r = respostas[i];
-        valores.push(`(${idUsuarioQuiz}, ${r.indicePergunta}, ${r.indiceOpcao})`);
+        valores.push(`(${fkUsuario}, ${fkQuiz}, ${r.indicePergunta}, ${r.indiceOpcao})`);
     }
 
     if (valores.length === 0) {
@@ -83,7 +85,7 @@ function registrarRespostasUsuario(idUsuarioQuiz, respostas) {
     }
 
     var instrucaoSql = `
-        INSERT INTO respostaUsuario (fkUsuarioQuiz, indicePergunta, indiceOpcao)
+        INSERT INTO respostaUsuario (fkUsuario, fkQuiz, indicePergunta, indiceOpcao)
         VALUES ${valores.join(", ")};
     `;
 

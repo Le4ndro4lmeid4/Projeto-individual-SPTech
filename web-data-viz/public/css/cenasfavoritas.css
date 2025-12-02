@@ -104,13 +104,13 @@ select {
 }
 
 #listaCenas::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #ff7b00, #ff4500); 
+  background: #333; 
   border-radius: 4px;
   box-shadow: 0 0 4px rgba(0,0,0,0.5);
 }
-
 #listaCenas::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #ff9b40, #ff6530);
+    background: #333; 
+
 }
 
 
@@ -188,10 +188,11 @@ select {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #417288,#1b2d6a, #2d2d2d, #590f0e); 
+  background: #333; 
   border-radius: 4px;
   box-shadow: 0 0 4px rgba(0,0,0,0.5);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom,  #4f839b,#29418f, #696969, #831917);
+    background: #333; 
+
 }

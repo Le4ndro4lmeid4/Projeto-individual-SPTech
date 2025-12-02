@@ -30,22 +30,6 @@ function registrarPartida(req, res) {
     }
 }
 
-function dashboardGeral(req, res) {
-    memoriaModel.buscarResumoGeral()
-        .then(function (resultado) {
-            if (resultado.length > 0) {
-                res.status(200).json(resultado);
-            } else {
-                res.status(204).send("Nenhum dado encontrado para o resumo geral.");
-            }
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao buscar o resumo geral! Erro: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
-        });
-}
-
 function minhasPartidas(req, res) {
     var idUsuario = req.params.idUsuario;
 
@@ -92,7 +76,6 @@ function resumoUsuario(req, res) {
 
 module.exports = {
     registrarPartida,
-    dashboardGeral,
     minhasPartidas,
     resumoUsuario
 };

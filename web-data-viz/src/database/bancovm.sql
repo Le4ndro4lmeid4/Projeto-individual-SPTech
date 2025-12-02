@@ -24,22 +24,22 @@ CREATE TABLE quiz (
 
 
 CREATE TABLE usuarioQuiz (
-    idUsuarioQuiz INT PRIMARY KEY AUTO_INCREMENT,
     fkUsuario INT NOT NULL,
     fkQuiz INT NOT NULL,
     resultadoElemento VARCHAR(20),
     dtRealizacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (fkUsuario, fkQuiz), -- já garante unicidade
     FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (fkQuiz) REFERENCES quiz (idQuiz),
-    UNIQUE (fkUsuario, fkQuiz)
+    FOREIGN KEY (fkQuiz) REFERENCES quiz(idQuiz)
 );
 
 CREATE TABLE respostaUsuario (
     idRespostaUsuario INT PRIMARY KEY AUTO_INCREMENT,
-    fkUsuarioQuiz INT NOT NULL,
+    fkUsuario INT NOT NULL,
+    fkQuiz INT NOT NULL,
     indicePergunta INT NOT NULL,
     indiceOpcao   INT NOT NULL,
-    FOREIGN KEY (fkUsuarioQuiz) REFERENCES usuarioQuiz(idUsuarioQuiz)
+    FOREIGN KEY (fkUsuario, fkQuiz) REFERENCES usuarioQuiz(fkUsuario, fkQuiz)
 );
 
 CREATE TABLE jogo (
@@ -48,12 +48,12 @@ CREATE TABLE jogo (
 );
 
 CREATE TABLE partidaMemoria (
-    idPartida INT PRIMARY KEY AUTO_INCREMENT,
     fkUsuario INT NOT NULL,
     fkJogo INT NOT NULL,
     pontuacao INT NOT NULL,
     tempoSegundos INT NOT NULL,
     dataPartida DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (fkUsuario, fkJogo, dataPartida),
     FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
     FOREIGN KEY (fkJogo) REFERENCES jogo(idJogo)
 );
@@ -71,3 +71,5 @@ SELECT * from usuario;
 SELECT * from usuarioQuiz;
 
 select * from partidaMemoria;
+
+

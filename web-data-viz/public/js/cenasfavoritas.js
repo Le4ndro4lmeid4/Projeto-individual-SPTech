@@ -137,14 +137,22 @@ function trocarlivro() {
         imagem: "zukoeozai.gif",
       },
       {
-        texto: "8",
-        titulo: "teste 2",
-        imagem: "zuko.gif",
+        texto: `Aang e Zuko embarcam em uma jornada que vai muito além do simples aprendizado de técnicas de dobra de fogo. Eles buscam compreender o verdadeiro significado do fogo — não apenas como poder destrutivo, mas como uma força vital, criativa e equilibrada.<br><br>
+
+        O momento é carregado de simbolismo: os dois se conectam com os antigos mestres do fogo, os dragões Ran e Shaw, que representam  sabedoria e harmonia com o elemento. A cena enfatiza que dominar um elemento não é dominar os outros ou exercer força bruta, mas entender sua essência e propósito.<br><br>
+
+        Além do aprendizado técnico, há uma profunda dimensão emocional. A amizade entre Aang e Zuko se fortalece, mostrando confiança e        respeito mútuo. Zuko, que lutou durante toda a série com raiva e culpa, começa a enxergar o fogo como algo mais do que        destruição, enquanto Aang absorve a lição de que força e equilíbrio podem coexistir.`,
+        titulo: "EP: 13: Fogo",
+        imagem: "dragoes.gif",
       },
       {
-        texto: "8",
-        titulo: "teste 2",
-        imagem: "zuko.gif",
+        texto: `O mundo inteiro parece pender na balança. Ozai, mais poderoso do que nunca com o cometa, ameaça destruir tudo, e cada movimento de Aang carrega um peso imenso. A tensão é quase palpável: o perigo é real, e a morte de muitos parece inevitável.<br><br>
+
+        O ápice emocional acontece quando Aang decide não matar Ozai. Em vez disso, ele canaliza sua energia espiritual, enfrentando o        medo, a raiva e a pressão de salvar o mundo sem perder sua humanidade. É um momento de coragem silenciosa, de compaixão       triunfando sobre a vingança, que mostra a verdadeira grandeza do Avatar.<br><br>
+
+        Enquanto isso, Zuko confronta seu pai e rompe com um ciclo de abuso, Katara enfrenta sua raiva contida, e todos os personagens        carregam o medo e a esperança juntos. Cada explosão, cada golpe, cada decisão reforça que essa batalha não é apenas física, mas       uma luta pelo coração e pela alma do mundo.`,
+        titulo: "EP: 20: O cometa",
+        imagem: "final.gif",
       },
     ];
   }

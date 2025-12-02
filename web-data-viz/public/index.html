@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projeto individual</title>
+    <title>Pagina principal</title>
     <link rel="stylesheet" href="css/index.css" />
     <script src="./js/index.js"></script>
   </head>
@@ -18,17 +18,23 @@
         </ul>
       </nav>
     </header>
+<div class="slider-box">
+  <img
+    class="side-image left"
+    src="assets/imgs/514edbf2afb8c098703f356547fd99a6.jpg"
+    alt="lado esquerdo"
+  />
 
+  <div class="slider">
+    <img id="imagem" src="assets/imgs/agua.png" alt="slider central" />
+  </div>
 
-    <div class="slider">
-      <div class="slides">
-        <img id="imagem" src="assets/imgs/agua.png" alt="imagem" />
-        <button id="anterior" onclick="anterior()">&#10094;</button>
-        <button id="proximo" onclick="proximo()">&#10095;</button>
-      </div>
-    </div>
-
-
+  <img
+    class="side-image right"
+    src="assets/imgs/514edbf2afb8c098703f356547fd99a6.jpg"
+    alt="lado direito"
+  />
+</div>
     <div class="container">
       <div class="container1">
         <div class="texto">
@@ -59,11 +65,10 @@
       </div>
     </div>
 
-
     <div
       class="container2"
       id="container2"
-      style="background-image: linear-gradient(to bottom, #639aab, #417288)"
+      style="background: linear-gradient(to top, #8a211a, #590f0e)"
     >
       <h1>Personagens Principais</h1>
       <button id="anteriorPersonagem" onclick="anteriorPersonagem()">
@@ -92,7 +97,6 @@
       </div>
     </div>
 
-
     <div class="container3" id="container3">
       <div class="botoesLivros" id="botoesLivros">
         <button class="agua" onclick="selecionarLivro1()">Agua</button>
@@ -100,7 +104,10 @@
         <button class="fogo" onclick="selecionarLivro3()">Fogo</button>
       </div>
 
-      <div class="Livros" id="Livros"style="background-image: url('./assets/imgs/livro1.gif')"
+      <div
+        class="Livros"
+        id="Livros"
+        style="background-image: url('./assets/imgs/livro1.gif')"
       ></div>
       <div class="textoAgua" id="textoAgua">
         Livro 1 – Explora adaptação, paciência e fluxo. Aang aprende que, assim
@@ -108,7 +115,12 @@
         enfrentam perdas e desafios, mostrando a importância de compaixão e
         conexão com os outros.
       </div>
-      <button class="cenas" onclick="window.location.href='cenasfavoritas.html'">Cenas favoritas</button>
+      <button
+        class="cenas"
+        onclick="window.location.href='cenasfavoritas.html'"
+      >
+        Cenas favoritas
+      </button>
     </div>
   </body>
 </html>

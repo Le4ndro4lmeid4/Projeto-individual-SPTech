@@ -66,7 +66,6 @@ var pontos = [0, 0, 0, 0];
 
 var respostasUsuario = [];
 
-
 function onloadEsconder() {
   document.getElementById("jogo").classList.add("oculto");
   document.getElementById("resultadoFinal").classList.add("oculto");
@@ -83,7 +82,6 @@ function iniciarQuiz() {
   respostasUsuario = [];
   carregarQuestao(numeroDaQuestaoAtual);
 }
-
 
 function resetarPontos() {
   for (var i = 0; i < pontos.length; i++) {
@@ -219,9 +217,9 @@ function finalizarQuiz() {
 
   if (elementoFinal) {
     sessionStorage.ELEMENTO = elementoFinal;
-    if (typeof aplicarCorSidebarPeloElemento === "function") {
-      aplicarCorSidebarPeloElemento();
-    }
+
+    aplicarCorSidebarPeloElemento();
+    aplicarCorQuizPeloElemento();
   }
 
   document.getElementById("jogo").classList.add("oculto");
@@ -236,7 +234,6 @@ function finalizarQuiz() {
 function irParaDashboard() {
   window.location.href = "/dashboard/dashboard.html";
 }
-
 
 function registrarResultadoQuizNoServidor(elementoFinal) {
   console.log("Registrando resultado do quiz para elemento:", elementoFinal);
@@ -294,7 +291,6 @@ function registrarResultadoQuizNoServidor(elementoFinal) {
     });
 }
 
-
 function mostrarResultadoExistente(elemento) {
   document.getElementById("divInicio").classList.add("oculto");
   document.getElementById("jogo").classList.add("oculto");
@@ -322,7 +318,6 @@ function mostrarResultadoExistente(elemento) {
   document.getElementById("btnDashboard").classList.remove("oculto");
 }
 
-
 function verificarlogin() {
   var idUsuario = sessionStorage.ID_USUARIO;
 
@@ -341,10 +336,10 @@ function verificarlogin() {
             .toLowerCase();
 
           sessionStorage.ELEMENTO = elemento;
-          if (typeof aplicarCorSidebarPeloElemento === "function") {
+          if (aplicarCorSidebarPeloElemento) {
             aplicarCorSidebarPeloElemento();
           }
-
+          aplicarCorQuizPeloElemento()
           mostrarResultadoExistente(elemento);
         } else {
           onloadEsconder();
@@ -357,8 +352,27 @@ function verificarlogin() {
     });
 }
 
+function aplicarCorQuizPeloElemento() {
+  var elemento = sessionStorage.ELEMENTO;
+  var container = document.getElementById("containerQuiz");
+  if (!container) return;
+
+  var cores = {
+    ar: { fundo: "linear-gradient(to bottom, #639aab, #417288)" },
+    agua: { fundo: "linear-gradient(to bottom, #1b2d6a, #0f1b3d)" },
+    fogo: { fundo: "linear-gradient(to bottom, #8a211a, #590f0e)" },
+    terra: { fundo: "linear-gradient(to bottom, #35702a, #1f3f18)" },
+  };
+
+  var tema = cores[elemento];
+  if (tema) {
+    container.style.background = tema.fundo;
+  }
+}
+
 window.onload = function () {
   preencherNomeUsuarioSidebar();
   aplicarCorSidebarPeloElemento();
   verificarlogin();
+  aplicarCorQuizPeloElemento();
 };

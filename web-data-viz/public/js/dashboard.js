@@ -10,7 +10,8 @@ window.onload = function () {
 
   if (elementoSalvo) {
     aplicarCorSidebarPeloElemento();
-  }
+    aplicarCorDashboardPeloElemento();
+}
 
   preencherNomeUsuarioSidebar();
 
@@ -62,6 +63,41 @@ function carregarDashboard() {
       document.getElementById("lista-resumo").innerHTML =
         "<p>Erro ao carregar os dados.</p>";
     });
+}
+function aplicarCorDashboardPeloElemento() {
+  var elemento = sessionStorage.ELEMENTO;
+
+  var container = document.querySelector(".container-dashboard");
+  if (!container) return;
+
+  var cores = {
+    ar: {
+      fundo: `
+        linear-gradient(to bottom, #639aab, #417288)
+      `
+    },
+    agua: {
+      fundo: `
+        linear-gradient(to bottom, #1b2d6a, #0f1b3d)
+      `
+    },
+    fogo: {
+      fundo: `
+        linear-gradient(to bottom, #8a211a, #590f0e)
+      `
+    },
+    terra: {
+      fundo: `
+        linear-gradient(to bottom, #35702a, #1f3f18)
+      `
+    }
+  };
+
+  var tema = cores[elemento];
+
+  if (tema) {
+    container.style.background = tema.fundo;
+  }
 }
 
 function atualizarMomentoUltimaAtualizacao() {
@@ -193,7 +229,7 @@ function carregarMeuElemento(idUsuario) {
     .then(function (dados) {
       if (!dados || dados.length === 0) {
         document.getElementById("spanElementoUsuario").textContent =
-          "nenhum quiz respondido ainda";
+          "carregando...";
         return;
       }
 
@@ -208,6 +244,8 @@ function carregarMeuElemento(idUsuario) {
       sessionStorage.ELEMENTO = elemento;
       console.log("Elemento salvo no sessionStorage:", sessionStorage.ELEMENTO);
       aplicarCorSidebarPeloElemento();
+      aplicarCorDashboardPeloElemento();
+
 
       var cardPersonagem = document.getElementById("cardPersonagem");
       if (cardPersonagem) {
